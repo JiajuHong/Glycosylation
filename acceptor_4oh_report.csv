@@ -1,0 +1,7 @@
+﻿metric,key,count
+Acceptor_OH_Status,ok,1561.0
+Acceptor_OH_Selection_Method,rule_unique,1561.0
+Acceptor_OH_Local_Num_Atoms,min,13.0
+Acceptor_OH_Local_Num_Atoms,median,16.0
+Acceptor_OH_Local_Num_Atoms,max,20.0
+Validation_Issues,rows,0.0
