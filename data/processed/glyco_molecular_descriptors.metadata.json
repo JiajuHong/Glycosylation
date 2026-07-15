@@ -1,0 +1,30 @@
+{
+  "version": "glyco_2d_v1",
+  "source_csv": "data/processed/glyco_model_local.csv",
+  "output_csv": "data/processed/glyco_molecular_descriptors.csv",
+  "number_of_reactions": 1561,
+  "descriptor_names": [
+    "mol_wt",
+    "heavy_atom_count",
+    "hetero_atom_count",
+    "h_bond_acceptors",
+    "h_bond_donors",
+    "tpsa",
+    "mol_log_p",
+    "fraction_csp3",
+    "rotatable_bond_count",
+    "ring_count",
+    "aliphatic_ring_count",
+    "aromatic_ring_count",
+    "specified_stereo_centers",
+    "unspecified_stereo_centers",
+    "oxygen_count",
+    "nitrogen_count",
+    "sulfur_count",
+    "silicon_count",
+    "halogen_count"
+  ],
+  "descriptor_dimension_per_molecule": 19,
+  "stereochemistry": "RDKit stereochemistry assigned before descriptor calculation",
+  "normalization": "not applied; training code fits separate donor/acceptor z-scores on train rows only"
+}

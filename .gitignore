@@ -2,3 +2,14 @@
 .DS_Store
 __pycache__/
 *.pyc
+.pytest_cache/
+.ruff_cache/
+
+# Generated model artifacts and caches
+checkpoints/
+data/processed/*_cache.pt
+outputs/
+results/logs/
+
+# External source trees are managed separately
+third_party/

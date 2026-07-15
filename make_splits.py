@@ -8,7 +8,7 @@ from sklearn.model_selection import GroupShuffleSplit, StratifiedShuffleSplit
 
 
 RANDOM_STATE = 42
-INPUT = Path("raw.csv")
+INPUT = Path("data/raw/raw.csv")
 
 
 def add_random_stratified_split(df: pd.DataFrame) -> pd.DataFrame:

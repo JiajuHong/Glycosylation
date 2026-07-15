@@ -5,13 +5,13 @@ from pathlib import Path
 import pandas as pd
 
 
-BASE_PATH = Path("condition_tokenized.csv")
-OUTPUT_PATH = Path("condition_tokenized_with_splits.csv")
+BASE_PATH = Path("data/processed/condition_tokenized.csv")
+OUTPUT_PATH = Path("data/processed/condition_tokenized_with_splits.csv")
 
 SPLIT_FILES = {
-    "split_random_stratified": Path("split_random_stratified.csv"),
-    "split_pair_group": Path("split_pair_group.csv"),
-    "split_year": Path("split_year.csv"),
+    "split_random_stratified": Path("data/processed/split_random_stratified.csv"),
+    "split_pair_group": Path("data/processed/split_pair_group.csv"),
+    "split_year": Path("data/processed/split_year.csv"),
 }
 
 

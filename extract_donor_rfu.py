@@ -8,11 +8,11 @@ import pandas as pd
 from rdkit import Chem
 
 
-INPUT_PATH = Path("condition_tokenized_with_splits.csv")
-FALLBACK_INPUT_PATH = Path("condition_tokenized.csv")
-OUTPUT_PATH = Path("donor_rfu_extracted.csv")
-REPORT_PATH = Path("donor_rfu_report.csv")
-MANUAL_CHECK_PATH = Path("donor_rfu_manual_check.csv")
+INPUT_PATH = Path("data/processed/condition_tokenized_with_splits.csv")
+FALLBACK_INPUT_PATH = Path("data/processed/condition_tokenized.csv")
+OUTPUT_PATH = Path("data/processed/donor_rfu_extracted.csv")
+REPORT_PATH = Path("data/processed/donor_rfu_report.csv")
+MANUAL_CHECK_PATH = Path("data/processed/donor_rfu_manual_check.csv")
 DONOR_SMILES_COLUMN = "Donor_Canonical_SMILES"
 
 
@@ -55,7 +55,6 @@ RFU_COLUMNS = [
     "Donor_LG_Entry_Index",
     "Donor_LG_Core_Indices",
     "Donor_Ring_Context_Indices",
-    "Donor_Bridge_Core_Indices",
     "Donor_C2_Sub_Entry_Index",
     "Donor_C2_Sub_Entry_Status",
 ]
@@ -75,7 +74,6 @@ def empty_result(status: str) -> dict[str, object]:
                 "LG_ENTRY": [],
                 "LG_CORE": [],
                 "RING_CONTEXT": [],
-                "BRIDGE_CORE": [],
                 "C2_SUB_ENTRY": [],
             },
             separators=(",", ":"),
@@ -86,7 +84,6 @@ def empty_result(status: str) -> dict[str, object]:
         "Donor_LG_Entry_Index": "",
         "Donor_LG_Core_Indices": "",
         "Donor_Ring_Context_Indices": "",
-        "Donor_Bridge_Core_Indices": "",
         "Donor_C2_Sub_Entry_Index": "",
         "Donor_C2_Sub_Entry_Status": "",
     }
@@ -129,15 +126,6 @@ def c2_sub_entry_indices(mol: Chem.Mol, c1_idx: int, c2_idx: int) -> list[int]:
         entries.append(idx)
     return sorted(entries)
 
-
-def imidate_bridge_indices(mol: Chem.Mol, c2_idx: int, lg_core: list[int]) -> list[int]:
-    core = set(lg_core)
-    bridge: set[int] = set()
-    for neighbor in mol.GetAtomWithIdx(c2_idx).GetNeighbors():
-        idx = neighbor.GetIdx()
-        if idx in core:
-            bridge.add(idx)
-    return sorted(bridge)
 
 
 def lg_roles(mol: Chem.Mol, donor_type: str, match: tuple[int, ...]) -> tuple[int, list[int]]:
@@ -289,12 +277,8 @@ def extract_donor_rfu(donor_smiles: object, donor_type: object) -> dict[str, obj
 
     ring_context = ring_context_indices(mol, c1_idx, o5_idx, c2_idx)
     c2_entries = c2_sub_entry_indices(mol, c1_idx, c2_idx)
-    bridge_core = imidate_bridge_indices(mol, c2_idx, lg_core_indices)
-
     if c2_entries:
         c2_sub_status = "found"
-    elif donor_type_str in {"trichloroacetimidate", "trifluoroacetimidate"} and bridge_core:
-        c2_sub_status = "cyclic_bridge"
     else:
         c2_sub_status = "absent_deoxy_or_no_substituent"
 
@@ -305,7 +289,6 @@ def extract_donor_rfu(donor_smiles: object, donor_type: object) -> dict[str, obj
         lg_entry_idx,
         *lg_core_indices,
         *ring_context,
-        *bridge_core,
         *c2_entries,
     }
     atom_indices = sorted(atom_set)
@@ -320,7 +303,6 @@ def extract_donor_rfu(donor_smiles: object, donor_type: object) -> dict[str, obj
         "LG_ENTRY": [lg_entry_idx],
         "LG_CORE": lg_core_indices,
         "RING_CONTEXT": ring_context,
-        "BRIDGE_CORE": bridge_core,
         "C2_SUB_ENTRY": c2_entries,
     }
 
@@ -336,7 +318,6 @@ def extract_donor_rfu(donor_smiles: object, donor_type: object) -> dict[str, obj
         "Donor_LG_Entry_Index": lg_entry_idx,
         "Donor_LG_Core_Indices": join_indices(lg_core_indices),
         "Donor_Ring_Context_Indices": join_indices(ring_context),
-        "Donor_Bridge_Core_Indices": join_indices(bridge_core),
         "Donor_C2_Sub_Entry_Index": join_indices(c2_entries),
         "Donor_C2_Sub_Entry_Status": c2_sub_status,
     }

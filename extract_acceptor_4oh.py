@@ -8,11 +8,11 @@ import pandas as pd
 from rdkit import Chem
 
 
-INPUT_PATH = Path("donor_rfu_extracted.csv")
-OVERRIDE_PATH = Path("acceptor_4oh_overrides.csv")
-OUTPUT_PATH = Path("glyco_model_local.csv")
-REPORT_PATH = Path("acceptor_4oh_report.csv")
-MANUAL_CHECK_PATH = Path("acceptor_4oh_manual_check.csv")
+INPUT_PATH = Path("data/processed/donor_rfu_extracted.csv")
+OVERRIDE_PATH = Path("data/processed/acceptor_4oh_overrides.csv")
+OUTPUT_PATH = Path("data/processed/glyco_model_local.csv")
+REPORT_PATH = Path("data/processed/acceptor_4oh_report.csv")
+MANUAL_CHECK_PATH = Path("data/processed/acceptor_4oh_manual_check.csv")
 
 
 OUTPUT_COLUMNS = [

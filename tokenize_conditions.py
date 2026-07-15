@@ -6,8 +6,8 @@ from pathlib import Path
 import pandas as pd
 
 
-INPUT_PATH = Path("raw.csv")
-OUTPUT_PATH = Path("condition_tokenized.csv")
+INPUT_PATH = Path("data/raw/raw.csv")
+OUTPUT_PATH = Path("data/processed/condition_tokenized.csv")
 
 
 SOLVENT_TOKEN_MAP = {
