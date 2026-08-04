@@ -1,1 +1,1 @@
-"""Model modules for glycosylation stereoselectivity experiments."""
+"""糖基化三层项目的神经网络组件；目录保持独立，供第一层和第三层复用。"""

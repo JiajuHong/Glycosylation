@@ -1,0 +1,477 @@
+{
+  "layer": 2,
+  "task_name": "target-4-O glycosylation literature-support and applicability-domain assessment",
+  "model": "weighted nearest-neighbour retrieval over literature successful reactions",
+  "probability_warning": "The score is not a calibrated reaction probability and is not a hard feasibility gate.",
+  "reference_data": {
+    "successful_reaction_rows": 1561,
+    "unique_full_reactions": 1441,
+    "exact_duplicate_rows": 120,
+    "unique_donor_acceptor_pairs": 1316,
+    "additional_free_oh_reaction_rows": 142
+  },
+  "split": {
+    "counts": {
+      "train": {
+        "rows": 1084,
+        "unique_full_reactions": 1000,
+        "unique_pairs": 921
+      },
+      "val": {
+        "rows": 239,
+        "unique_full_reactions": 217,
+        "unique_pairs": 197
+      },
+      "test": {
+        "rows": 238,
+        "unique_full_reactions": 224,
+        "unique_pairs": 198
+      }
+    },
+    "cross_split_overlap": {
+      "train-val": {
+        "donor": 81,
+        "acceptor": 73,
+        "pair": 0
+      },
+      "train-test": {
+        "donor": 73,
+        "acceptor": 81,
+        "pair": 0
+      },
+      "val-test": {
+        "donor": 29,
+        "acceptor": 28,
+        "pair": 0
+      }
+    }
+  },
+  "features": {
+    "donor": "Morgan radius 2, 1024 bits, cosine similarity",
+    "acceptor": "Morgan radius 2, 1024 bits, cosine similarity",
+    "condition_context": "solvent, catalyst/activator, temperature, time, donor type and additional free-OH count",
+    "weights": {
+      "donor": 0.4,
+      "acceptor": 0.4,
+      "context": 0.2
+    }
+  },
+  "u_generation": {
+    "meaning": "unobserved/unknown controlled recombinations, not failed reactions",
+    "base_seed": 20260716,
+    "pool_seed_formula": "base_seed + pool_id * 1009",
+    "pool_count": 5,
+    "u_per_positive": 15,
+    "qa": {
+      "pool_count": 5,
+      "u_per_positive": 15,
+      "rows": 117075,
+      "checks": {
+        "unique_u_sample_ids": true,
+        "all_source_ids_exist": true,
+        "pool_0_expected_counts": true,
+        "pool_0_unique_pairs": true,
+        "pool_0_unique_full_reactions": true,
+        "pool_0_no_known_positive_pairs": true,
+        "pool_0_same_donor_type_sources": true,
+        "pool_0_no_cross_split_pair_overlap": true,
+        "pool_1_expected_counts": true,
+        "pool_1_unique_pairs": true,
+        "pool_1_unique_full_reactions": true,
+        "pool_1_no_known_positive_pairs": true,
+        "pool_1_same_donor_type_sources": true,
+        "pool_1_no_cross_split_pair_overlap": true,
+        "pool_2_expected_counts": true,
+        "pool_2_unique_pairs": true,
+        "pool_2_unique_full_reactions": true,
+        "pool_2_no_known_positive_pairs": true,
+        "pool_2_same_donor_type_sources": true,
+        "pool_2_no_cross_split_pair_overlap": true,
+        "pool_3_expected_counts": true,
+        "pool_3_unique_pairs": true,
+        "pool_3_unique_full_reactions": true,
+        "pool_3_no_known_positive_pairs": true,
+        "pool_3_same_donor_type_sources": true,
+        "pool_3_no_cross_split_pair_overlap": true,
+        "pool_4_expected_counts": true,
+        "pool_4_unique_pairs": true,
+        "pool_4_unique_full_reactions": true,
+        "pool_4_no_known_positive_pairs": true,
+        "pool_4_same_donor_type_sources": true,
+        "pool_4_no_cross_split_pair_overlap": true
+      },
+      "pool_summaries": {
+        "0": {
+          "rows": 23415,
+          "split_counts": {
+            "train": 16260,
+            "val": 3585,
+            "test": 3570
+          },
+          "donor_type_counts": {
+            "thioglycoside": 14487,
+            "trichloroacetimidate": 7915,
+            "trifluoroacetimidate": 1013
+          },
+          "cross_split_pair_overlap": {
+            "train-val": 0,
+            "train-test": 0,
+            "val-test": 0
+          }
+        },
+        "1": {
+          "rows": 23415,
+          "split_counts": {
+            "train": 16260,
+            "val": 3585,
+            "test": 3570
+          },
+          "donor_type_counts": {
+            "thioglycoside": 14397,
+            "trichloroacetimidate": 8015,
+            "trifluoroacetimidate": 1003
+          },
+          "cross_split_pair_overlap": {
+            "train-val": 0,
+            "train-test": 0,
+            "val-test": 0
+          }
+        },
+        "2": {
+          "rows": 23415,
+          "split_counts": {
+            "train": 16260,
+            "val": 3585,
+            "test": 3570
+          },
+          "donor_type_counts": {
+            "thioglycoside": 14295,
+            "trichloroacetimidate": 8113,
+            "trifluoroacetimidate": 1007
+          },
+          "cross_split_pair_overlap": {
+            "train-val": 0,
+            "train-test": 0,
+            "val-test": 0
+          }
+        },
+        "3": {
+          "rows": 23415,
+          "split_counts": {
+            "train": 16260,
+            "val": 3585,
+            "test": 3570
+          },
+          "donor_type_counts": {
+            "thioglycoside": 14425,
+            "trichloroacetimidate": 7951,
+            "trifluoroacetimidate": 1039
+          },
+          "cross_split_pair_overlap": {
+            "train-val": 0,
+            "train-test": 0,
+            "val-test": 0
+          }
+        },
+        "4": {
+          "rows": 23415,
+          "split_counts": {
+            "train": 16260,
+            "val": 3585,
+            "test": 3570
+          },
+          "donor_type_counts": {
+            "thioglycoside": 14456,
+            "trichloroacetimidate": 7960,
+            "trifluoroacetimidate": 999
+          },
+          "cross_split_pair_overlap": {
+            "train-val": 0,
+            "train-test": 0,
+            "val-test": 0
+          }
+        }
+      },
+      "overall_pass": true
+    }
+  },
+  "leave_one_out_domain_calibration": {
+    "overall": {
+      "n": 1441,
+      "q05": 0.7651737332344055,
+      "q10": 0.801994800567627,
+      "q25": 0.8676891922950745,
+      "median": 0.9258319735527039
+    },
+    "thioglycoside": {
+      "n": 846,
+      "q05": 0.7605817914009094,
+      "q10": 0.8008449077606201,
+      "q25": 0.867583155632019,
+      "median": 0.9298288822174072
+    },
+    "trichloroacetimidate": {
+      "n": 509,
+      "q05": 0.7810677886009216,
+      "q10": 0.8098471164703369,
+      "q25": 0.8707864284515381,
+      "median": 0.9230762720108032
+    },
+    "trifluoroacetimidate": {
+      "n": 86,
+      "q05": 0.7312034368515015,
+      "q10": 0.7826594114303589,
+      "q25": 0.8604684472084045,
+      "median": 0.9191675186157227
+    },
+    "domain_rule": "below donor-type q05 = out_of_domain; q05 to q10 = borderline; at or above q10 = in_domain"
+  },
+  "validation_metrics_by_pool": [
+    {
+      "pool_id": 0,
+      "split": "val",
+      "n_candidates": 3824,
+      "n_hidden_positive": 239,
+      "n_unlabeled": 3585,
+      "random_recall_at_n_positive": 0.0625,
+      "recall_at_5pct": 0.5355648535564853,
+      "recall_at_10pct": 0.6317991631799164,
+      "recall_at_20pct": 0.7405857740585774,
+      "recall_at_n_positive": 0.5648535564853556,
+      "mean_positive_rank": 660.7991631799163,
+      "median_positive_rank": 168.0,
+      "mean_positive_percentile": 0.8274132453099879
+    },
+    {
+      "pool_id": 0,
+      "split": "test",
+      "n_candidates": 3808,
+      "n_hidden_positive": 238,
+      "n_unlabeled": 3570,
+      "random_recall_at_n_positive": 0.0625,
+      "recall_at_5pct": 0.5504201680672269,
+      "recall_at_10pct": 0.6596638655462185,
+      "recall_at_20pct": 0.7857142857142857,
+      "recall_at_n_positive": 0.592436974789916,
+      "mean_positive_rank": 604.7941176470588,
+      "median_positive_rank": 162.5,
+      "mean_positive_percentile": 0.8413989709358922
+    },
+    {
+      "pool_id": 1,
+      "split": "val",
+      "n_candidates": 3824,
+      "n_hidden_positive": 239,
+      "n_unlabeled": 3585,
+      "random_recall_at_n_positive": 0.0625,
+      "recall_at_5pct": 0.5439330543933054,
+      "recall_at_10pct": 0.6317991631799164,
+      "recall_at_20pct": 0.7489539748953975,
+      "recall_at_n_positive": 0.5690376569037657,
+      "mean_positive_rank": 652.7824267782427,
+      "median_positive_rank": 157.0,
+      "mean_positive_percentile": 0.8295102205654611
+    },
+    {
+      "pool_id": 1,
+      "split": "test",
+      "n_candidates": 3808,
+      "n_hidden_positive": 238,
+      "n_unlabeled": 3570,
+      "random_recall_at_n_positive": 0.0625,
+      "recall_at_5pct": 0.5378151260504201,
+      "recall_at_10pct": 0.6638655462184874,
+      "recall_at_20pct": 0.7857142857142857,
+      "recall_at_n_positive": 0.592436974789916,
+      "mean_positive_rank": 606.953781512605,
+      "median_positive_rank": 164.0,
+      "mean_positive_percentile": 0.840831683343156
+    },
+    {
+      "pool_id": 2,
+      "split": "val",
+      "n_candidates": 3824,
+      "n_hidden_positive": 239,
+      "n_unlabeled": 3585,
+      "random_recall_at_n_positive": 0.0625,
+      "recall_at_5pct": 0.5355648535564853,
+      "recall_at_10pct": 0.6317991631799164,
+      "recall_at_20pct": 0.7489539748953975,
+      "recall_at_n_positive": 0.5606694560669456,
+      "mean_positive_rank": 661.3284518828452,
+      "median_positive_rank": 170.0,
+      "mean_positive_percentile": 0.8272747967871188
+    },
+    {
+      "pool_id": 2,
+      "split": "test",
+      "n_candidates": 3808,
+      "n_hidden_positive": 238,
+      "n_unlabeled": 3570,
+      "random_recall_at_n_positive": 0.0625,
+      "recall_at_5pct": 0.542016806722689,
+      "recall_at_10pct": 0.6680672268907563,
+      "recall_at_20pct": 0.7857142857142857,
+      "recall_at_n_positive": 0.6008403361344538,
+      "mean_positive_rank": 596.0336134453781,
+      "median_positive_rank": 167.0,
+      "mean_positive_percentile": 0.8437001278052592
+    },
+    {
+      "pool_id": 3,
+      "split": "val",
+      "n_candidates": 3824,
+      "n_hidden_positive": 239,
+      "n_unlabeled": 3585,
+      "random_recall_at_n_positive": 0.0625,
+      "recall_at_5pct": 0.5313807531380753,
+      "recall_at_10pct": 0.6276150627615062,
+      "recall_at_20pct": 0.7405857740585774,
+      "recall_at_n_positive": 0.5481171548117155,
+      "mean_positive_rank": 659.4435146443515,
+      "median_positive_rank": 170.0,
+      "mean_positive_percentile": 0.8277678486412892
+    },
+    {
+      "pool_id": 3,
+      "split": "test",
+      "n_candidates": 3808,
+      "n_hidden_positive": 238,
+      "n_unlabeled": 3570,
+      "random_recall_at_n_positive": 0.0625,
+      "recall_at_5pct": 0.5504201680672269,
+      "recall_at_10pct": 0.6638655462184874,
+      "recall_at_20pct": 0.7857142857142857,
+      "recall_at_n_positive": 0.592436974789916,
+      "mean_positive_rank": 604.5987394957983,
+      "median_positive_rank": 158.0,
+      "mean_positive_percentile": 0.8414502917006045
+    },
+    {
+      "pool_id": 4,
+      "split": "val",
+      "n_candidates": 3824,
+      "n_hidden_positive": 239,
+      "n_unlabeled": 3585,
+      "random_recall_at_n_positive": 0.0625,
+      "recall_at_5pct": 0.5313807531380753,
+      "recall_at_10pct": 0.6359832635983264,
+      "recall_at_20pct": 0.7489539748953975,
+      "recall_at_n_positive": 0.5606694560669456,
+      "mean_positive_rank": 661.3389121338912,
+      "median_positive_rank": 163.0,
+      "mean_positive_percentile": 0.8272720606503031
+    },
+    {
+      "pool_id": 4,
+      "split": "test",
+      "n_candidates": 3808,
+      "n_hidden_positive": 238,
+      "n_unlabeled": 3570,
+      "random_recall_at_n_positive": 0.0625,
+      "recall_at_5pct": 0.5630252100840336,
+      "recall_at_10pct": 0.6680672268907563,
+      "recall_at_20pct": 0.7857142857142857,
+      "recall_at_n_positive": 0.6008403361344538,
+      "mean_positive_rank": 608.0714285714286,
+      "median_positive_rank": 161.0,
+      "mean_positive_percentile": 0.8405381064955532
+    }
+  ],
+  "validation_summary": {
+    "validation": {
+      "recall_at_5pct": {
+        "mean": 0.5355648535564854,
+        "std": 0.005124455528835092,
+        "min": 0.5313807531380753,
+        "max": 0.5439330543933054
+      },
+      "recall_at_10pct": {
+        "mean": 0.6317991631799164,
+        "std": 0.002958605779023219,
+        "min": 0.6276150627615062,
+        "max": 0.6359832635983264
+      },
+      "recall_at_20pct": {
+        "mean": 0.7456066945606695,
+        "std": 0.004583452364059979,
+        "min": 0.7405857740585774,
+        "max": 0.7489539748953975
+      },
+      "recall_at_n_positive": {
+        "mean": 0.5606694560669456,
+        "std": 0.007827735118773927,
+        "min": 0.5481171548117155,
+        "max": 0.5690376569037657
+      },
+      "mean_positive_percentile": {
+        "mean": 0.827847634390832,
+        "std": 0.0009511414824394861,
+        "min": 0.8272720606503031,
+        "max": 0.8295102205654611
+      }
+    },
+    "test": {
+      "recall_at_5pct": {
+        "mean": 0.5487394957983194,
+        "std": 0.009672995322034755,
+        "min": 0.5378151260504201,
+        "max": 0.5630252100840336
+      },
+      "recall_at_10pct": {
+        "mean": 0.6647058823529411,
+        "std": 0.0035153782627482043,
+        "min": 0.6596638655462185,
+        "max": 0.6680672268907563
+      },
+      "recall_at_20pct": {
+        "mean": 0.7857142857142857,
+        "std": 0.0,
+        "min": 0.7857142857142857,
+        "max": 0.7857142857142857
+      },
+      "recall_at_n_positive": {
+        "mean": 0.5957983193277311,
+        "std": 0.0046027105672702875,
+        "min": 0.592436974789916,
+        "max": 0.6008403361344538
+      },
+      "mean_positive_percentile": {
+        "mean": 0.841583836056093,
+        "std": 0.0012439839219724538,
+        "min": 0.8405381064955532,
+        "max": 0.8437001278052592
+      }
+    },
+    "test_pool_stability": {
+      "positive_rank_spearman_mean": 1.0,
+      "positive_rank_spearman_min": 1.0
+    }
+  },
+  "pool0_test_ablation": {
+    "donor_only_recall_at_n_positive": 0.07563025210084033,
+    "acceptor_only_recall_at_n_positive": 0.07142857142857142,
+    "condition_only_recall_at_n_positive": 0.0546218487394958,
+    "donor_acceptor_recall_at_n_positive": 0.5126050420168067,
+    "full_reaction_recall_at_n_positive": 0.592436974789916
+  },
+  "stress_interface": {
+    "rows": 627,
+    "layer1_reject": 606,
+    "manual_review": 0,
+    "scored": 21,
+    "domain_counts": {
+      "in_domain": 13,
+      "borderline": 8,
+      "out_of_domain": 0
+    }
+  },
+  "validated_scope": "donor-acceptor pair disjoint; individual donor or acceptor components may recur across splits",
+  "not_yet_validated": [
+    "donor-cold",
+    "acceptor-cold",
+    "double-cold",
+    "prospective experimental success/failure"
+  ],
+  "production_decision": "Use as a soft ranking and evidence-retrieval layer after layer-one structural filtering; never reject solely because of a low score."
+}

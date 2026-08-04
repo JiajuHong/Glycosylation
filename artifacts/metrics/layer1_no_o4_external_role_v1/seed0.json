@@ -1,0 +1,119 @@
+{
+  "model": "structure_only_chiral_gine_crossattn_tri_no_o4_external_role",
+  "seed": 0,
+  "best_epoch": 28,
+  "selection_metric": "validation_cross_entropy_loss",
+  "best_validation_loss": 0.07828707356801194,
+  "early_stop_patience": 10,
+  "early_stop_min_delta": 0.0001,
+  "threshold": 0.05,
+  "n_train": 1872,
+  "n_val": 356,
+  "n_test": 404,
+  "validation": {
+    "accuracy": 1.0,
+    "balanced_accuracy": 1.0,
+    "macro_f1": 1.0,
+    "confusion_matrix": "[[178, 0], [0, 178]]",
+    "auroc": 1.0,
+    "auprc": 1.0
+  },
+  "test": {
+    "accuracy": 1.0,
+    "balanced_accuracy": 1.0,
+    "macro_f1": 1.0,
+    "confusion_matrix": "[[202, 0], [0, 202]]",
+    "auroc": 1.0,
+    "auprc": 1.0
+  },
+  "stress": {
+    "overall": {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "macro_f1": 1.0,
+      "confusion_matrix": "[[606, 0], [0, 21]]",
+      "auroc": 1.0,
+      "auprc": 1.0
+    },
+    "n": 627,
+    "non_target_oh_acetyl": {
+      "n": 21,
+      "expected_label": 1,
+      "accuracy": 1.0,
+      "mean_probability_feasible": 0.9881491320473808,
+      "min_probability_feasible": 0.9878363013267517,
+      "max_probability_feasible": 0.9888139367103577
+    },
+    "o4_benzyl": {
+      "n": 202,
+      "expected_label": 0,
+      "accuracy": 1.0,
+      "mean_probability_feasible": 0.011650818911851338,
+      "min_probability_feasible": 0.010811264626681805,
+      "max_probability_feasible": 0.012092864140868187
+    },
+    "o4_methyl": {
+      "n": 202,
+      "expected_label": 0,
+      "accuracy": 1.0,
+      "mean_probability_feasible": 0.011622401360090417,
+      "min_probability_feasible": 0.0107143335044384,
+      "max_probability_feasible": 0.012128416448831558
+    },
+    "o4_trimethylsilyl": {
+      "n": 202,
+      "expected_label": 0,
+      "accuracy": 1.0,
+      "mean_probability_feasible": 0.011837934028578571,
+      "min_probability_feasible": 0.010965931229293346,
+      "max_probability_feasible": 0.012330194935202599
+    }
+  },
+  "rule_baseline": {
+    "definition": "feasible iff O4_EXTERNAL is absent from the curated site annotation",
+    "test": {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "macro_f1": 1.0,
+      "confusion_matrix": "[[202, 0], [0, 202]]",
+      "auroc": 1.0,
+      "auprc": 1.0
+    },
+    "stress": {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "macro_f1": 1.0,
+      "confusion_matrix": "[[606, 0], [0, 21]]",
+      "auroc": 1.0,
+      "auprc": 1.0
+    }
+  },
+  "checkpoint": "checkpoints/hard_feasibility_no_o4_external_role/seed0.pt",
+  "acceptor_role_names": [
+    "O4",
+    "C4",
+    "C3",
+    "C5",
+    "C2",
+    "O5",
+    "C1",
+    "N2_SUB_ENTRY",
+    "N2_SUBGRAPH",
+    "PG_ENTRY"
+  ],
+  "ablation": {
+    "o4_external_role_removed": true,
+    "external_atom_retained_in_graph": true
+  },
+  "input_fields": [
+    "Donor_Canonical_SMILES",
+    "Acceptor_Canonical_SMILES",
+    "target_site_annotations"
+  ],
+  "excluded_fields": [
+    "solvent",
+    "catalyst",
+    "temperature",
+    "time"
+  ]
+}

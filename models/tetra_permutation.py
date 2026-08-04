@@ -1,8 +1,6 @@
-"""PERM_CAT aggregation for tetrahedral chirality.
+"""四面体手性 PERM_CAT 聚合：对偶排列不变、对奇排列敏感。
 
-This is an independent, device-safe implementation of the aggregation idea in
-Pattanaik et al., *Message Passing Networks for Molecules with Tetrahedral
-Chirality* (2020).  It does not import their model or training framework.
+这是设备安全的独立实现，不依赖原论文的训练框架。
 """
 
 from __future__ import annotations

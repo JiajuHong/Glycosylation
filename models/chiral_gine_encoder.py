@@ -1,4 +1,4 @@
-"""Atom-level Chiral-GINE encoder compatible with the existing GINE models."""
+"""原子级 Chiral-GINE 编码器，与普通 GINE 模型保持相同输入输出接口。"""
 
 from __future__ import annotations
 

@@ -4,9 +4,13 @@ __pycache__/
 *.pyc
 .pytest_cache/
 .ruff_cache/
+.codegraph/
+logs/
+/test_predictions.csv
 
-# Generated model artifacts and caches
-checkpoints/
+# Server-resident binaries are SHA-256 pinned by the frozen manifest
+/checkpoints/
+/artifacts/checkpoints/
 data/processed/*_cache.pt
 outputs/
 results/logs/

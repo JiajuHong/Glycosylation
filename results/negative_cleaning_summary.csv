@@ -1,0 +1,12 @@
+﻿Audit_Item,Value,Acceptance_Criterion
+Source O4-blocked rows,876,raw workbook count
+Raw acceptor SMILES parseable,377,RDKit parse before repair
+Rows repaired by ]] -> ],499,deterministic syntax repair
+Acceptor SMILES parseable after repair,876,required for all source rows
+Exact regenerated O4-acetate matches,861,retained reliable negatives
+Excluded for manual review,15,not used for training
+Unique parent reactions used,861,must equal retained negatives
+Duplicate parent use,0,must be zero
+Unique Sample_ID,861,must equal retained negatives
+Blocked O4 has no hydrogen,861,validated during deterministic generation
+Product/config/yield leakage columns,0,not present in cleaned training table

@@ -1,3 +1,5 @@
+"""通用池化组件：提供掩码平均、全局注意力和 PyG 图池化。"""
+
 from __future__ import annotations
 
 import torch

@@ -1,3 +1,5 @@
+"""局部反应中心模块：提取 RFU/O4 节点并执行角色感知交叉注意力。"""
+
 from __future__ import annotations
 
 from dataclasses import dataclass

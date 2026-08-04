@@ -1,3 +1,5 @@
+"""普通 GINE 编码器：作为结构编码基础和手性模型对照。"""
+
 from __future__ import annotations
 
 import torch

@@ -1,4 +1,4 @@
-"""A GINE convolution whose tetrahedral centres use PERM_CAT aggregation."""
+"""手性 GINE 卷积：普通原子使用 GINE，四面体中心使用 PERM_CAT 聚合。"""
 
 from __future__ import annotations
 

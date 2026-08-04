@@ -1,3 +1,5 @@
+"""第三层模型装配中心：组合全局结构、局部位点、条件与分类头。"""
+
 from __future__ import annotations
 
 import torch

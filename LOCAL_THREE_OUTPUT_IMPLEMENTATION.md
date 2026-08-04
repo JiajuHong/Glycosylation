@@ -66,7 +66,7 @@ Main development command:
 ```bash
 cd /home/jjhong/gly
 conda activate one
-python train_gine.py \
+python -m layer3.train_gine \
   --encoder-type chiral_gine \
   --model-type crossattn_tri \
   --local-output-mode l3 \

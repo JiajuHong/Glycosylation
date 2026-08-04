@@ -9,7 +9,7 @@ GINE remains the default and is selected with `--encoder-type gine`.
 The Chiral-GINE option is selected with:
 
 ```bash
-python train_gine.py --encoder-type chiral_gine --model-type crossattn
+python -m layer3.train_gine --encoder-type chiral_gine --model-type crossattn
 ```
 
 Development uses the existing fixed `split_pair_group` train/validation/test
@@ -20,7 +20,7 @@ development scope.
 For the validated stable training configuration, use:
 
 ```bash
-python train_gine.py \
+python -m layer3.train_gine \
   --encoder-type chiral_gine \
   --model-type crossattn \
   --seed 0
@@ -47,7 +47,7 @@ pooling, classifier and datasets are not copied into this project.
 
 ## Module boundaries
 
-- `chiral_graph.py`: explicit-H expansion, heavy-atom mask, parity and
+- `layer3/chiral_graph.py`: explicit-H expansion, heavy-atom mask, parity and
   tetrahedral neighbour/edge indices.
 - `models/tetra_permutation.py`: the 12 even tetrahedral permutations and
   PERM_CAT aggregation.
@@ -57,7 +57,7 @@ pooling, classifier and datasets are not copied into this project.
   normalization and dropout structure as the existing GINE encoder.
 - `models/glyco_gine_models.py`: selects either encoder without changing the
   global/local/cross-attention model variants.
-- `tests/test_chiral_gine.py`: graph-index, permutation and model integration
+- `layer3/tests/test_chiral_gine.py`: graph-index, permutation and model integration
   tests, plus optimizer/scheduler/profile stability tests.
 
 ## Graph invariants
@@ -81,7 +81,7 @@ while explicit hydrogens still participate in message passing.
 The Chiral-GINE cache has a separate feature version and path:
 
 ```bash
-python build_rdkit_graph_cache.py --graph-type chiral_gine
+python -m layer3.build_rdkit_graph_cache --graph-type chiral_gine
 # data/processed/rdkit_chiral_graph_cache.pt
 ```
 
@@ -104,7 +104,7 @@ Server verification command:
 ssh server1
 cd /home/jjhong/gly
 conda activate one
-python -m unittest discover -s tests -v
+python -m unittest discover -s layer3/tests -t . -v
 ```
 
 ## Verification
@@ -113,7 +113,7 @@ Run the focused test suite on `server1` in conda `one`:
 
 ```bash
 cd /home/jjhong/gly
-python -m unittest discover -s tests -v
+python -m unittest discover -s layer3/tests -t . -v
 ```
 
 The tests require even-permutation invariance, odd-permutation sensitivity,

@@ -1,3 +1,5 @@
+"""反应条件编码器：融合溶剂、催化剂、温度和时间。"""
+
 from __future__ import annotations
 
 import torch
