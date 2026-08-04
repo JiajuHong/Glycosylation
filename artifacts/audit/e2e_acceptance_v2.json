@@ -1,0 +1,29 @@
+{
+  "pipeline_version": "1.3.0",
+  "overall_status": "passed",
+  "checks": {
+    "three_rows_returned": true,
+    "statuses_match": true,
+    "blocked_skips_layer2": true,
+    "blocked_skips_layer3": true,
+    "open_has_stereo_label": true,
+    "third_layer_columns_are_beta_scores": true,
+    "condition_screening_returns_recommendations": true,
+    "condition_screening_uses_target_support_tiers": true,
+    "condition_screening_preserves_curated_catalyst_records": true,
+    "condition_screening_records_recipe_limitation": true
+  },
+  "observed_statuses": {
+    "known_open_positive": "predicted",
+    "known_o4_blocked": "structurally_infeasible",
+    "invalid_smiles": "invalid_input"
+  },
+  "expected_statuses": {
+    "known_open_positive": "predicted",
+    "known_o4_blocked": "structurally_infeasible",
+    "invalid_smiles": "invalid_input"
+  },
+  "predicted_stereoselectivity": "Alpha",
+  "subprocess_stdout": "{\n  \"rows\": 3,\n  \"status_counts\": {\n    \"predicted\": 1,\n    \"structurally_infeasible\": 1,\n    \"invalid_input\": 1\n  },\n  \"layer1_seed_disagreements\": 0,\n  \"layer3_seed_disagreements\": 0,\n  \"output\": \"/tmp/tmptakb0dk7/acceptance_predictions.csv\",\n  \"warning\": \"Beta score and soft compatibility score are not calibrated reaction probabilities.\"\n}\n",
+  "condition_screening_stdout": "{\n  \"tasks\": 1,\n  \"candidates_scored\": 48,\n  \"recommendations\": 3,\n  \"tier_counts\": {\n    \"A\": 3\n  },\n  \"preparation\": {\n    \"tasks\": [\n      {\n        \"Task_ID\": \"known_trifluoroacetimidate\",\n        \"Donor_Type\": \"trifluoroacetimidate\",\n        \"Target_Config\": \"Alpha\",\n        \"Task_Mode\": \"standard\",\n        \"Candidate_Count\": 48,\n        \"Original_Condition_Complete\": false\n      }\n    ],\n    \"excluded_original_conditions\": 0\n  },\n  \"output\": \"/tmp/tmptakb0dk7/screening_recommendations.csv\",\n  \"all_candidates_output\": null,\n  \"warning\": \"recommendation tiers are screening priorities, not reaction-success probabilities\"\n}\n"
+}

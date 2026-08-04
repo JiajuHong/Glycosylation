@@ -1,0 +1,436 @@
+{
+  "pipeline_version": "1.3.0",
+  "manifest": "artifacts/model_manifest_v2.json",
+  "device": "cuda",
+  "hash_check": {
+    "status": "passed",
+    "artifact_count": 65
+  },
+  "layer1": [
+    {
+      "seed": 0,
+      "checkpoint": "artifacts/checkpoints/layer1_no_o4_external_role_v1/seed0.pt",
+      "acceptor_role_names": [
+        "O4",
+        "C4",
+        "C3",
+        "C5",
+        "C2",
+        "O5",
+        "C1",
+        "N2_SUB_ENTRY",
+        "N2_SUBGRAPH",
+        "PG_ENTRY"
+      ],
+      "explicit_o4_external_role_channel": false,
+      "test_n": 404,
+      "test_metrics": {
+        "accuracy": 1.0,
+        "balanced_accuracy": 1.0,
+        "macro_f1": 1.0,
+        "confusion_matrix": "[[202, 0], [0, 202]]",
+        "auroc": 1.0,
+        "auprc": 1.0
+      },
+      "stress": {
+        "overall": {
+          "accuracy": 1.0,
+          "balanced_accuracy": 1.0,
+          "macro_f1": 1.0,
+          "confusion_matrix": "[[606, 0], [0, 21]]",
+          "auroc": 1.0,
+          "auprc": 1.0
+        },
+        "n": 627,
+        "non_target_oh_acetyl": {
+          "n": 21,
+          "expected_label": 1,
+          "accuracy": 1.0,
+          "mean_probability_feasible": 0.9881491320473808,
+          "min_probability_feasible": 0.9878363013267517,
+          "max_probability_feasible": 0.9888139367103577
+        },
+        "o4_benzyl": {
+          "n": 202,
+          "expected_label": 0,
+          "accuracy": 1.0,
+          "mean_probability_feasible": 0.01165081896717743,
+          "min_probability_feasible": 0.010811264626681805,
+          "max_probability_feasible": 0.012092864140868187
+        },
+        "o4_methyl": {
+          "n": 202,
+          "expected_label": 0,
+          "accuracy": 1.0,
+          "mean_probability_feasible": 0.011622401230996199,
+          "min_probability_feasible": 0.010714338161051273,
+          "max_probability_feasible": 0.012128421105444431
+        },
+        "o4_trimethylsilyl": {
+          "n": 202,
+          "expected_label": 0,
+          "accuracy": 1.0,
+          "mean_probability_feasible": 0.011837933848768767,
+          "min_probability_feasible": 0.010965931229293346,
+          "max_probability_feasible": 0.012330194935202599
+        }
+      },
+      "batch_size_max_abs_difference": 1.1920928955078125e-07,
+      "deterministic_batch_check": true,
+      "repeat_max_abs_difference": 1.1920928955078125e-07,
+      "repeat_class_match": true,
+      "repeat_check": true,
+      "cpu_gpu_class_match": true
+    },
+    {
+      "seed": 1,
+      "checkpoint": "artifacts/checkpoints/layer1_no_o4_external_role_v1/seed1.pt",
+      "acceptor_role_names": [
+        "O4",
+        "C4",
+        "C3",
+        "C5",
+        "C2",
+        "O5",
+        "C1",
+        "N2_SUB_ENTRY",
+        "N2_SUBGRAPH",
+        "PG_ENTRY"
+      ],
+      "explicit_o4_external_role_channel": false,
+      "test_n": 404,
+      "test_metrics": {
+        "accuracy": 1.0,
+        "balanced_accuracy": 1.0,
+        "macro_f1": 1.0,
+        "confusion_matrix": "[[202, 0], [0, 202]]",
+        "auroc": 1.0,
+        "auprc": 1.0
+      },
+      "stress": {
+        "overall": {
+          "accuracy": 1.0,
+          "balanced_accuracy": 1.0,
+          "macro_f1": 1.0,
+          "confusion_matrix": "[[606, 0], [0, 21]]",
+          "auroc": 1.0,
+          "auprc": 1.0
+        },
+        "n": 627,
+        "non_target_oh_acetyl": {
+          "n": 21,
+          "expected_label": 1,
+          "accuracy": 1.0,
+          "mean_probability_feasible": 0.9877090823082697,
+          "min_probability_feasible": 0.9873880743980408,
+          "max_probability_feasible": 0.9883481860160828
+        },
+        "o4_benzyl": {
+          "n": 202,
+          "expected_label": 0,
+          "accuracy": 1.0,
+          "mean_probability_feasible": 0.010599125637718946,
+          "min_probability_feasible": 0.009849107824265957,
+          "max_probability_feasible": 0.011130014434456825
+        },
+        "o4_methyl": {
+          "n": 202,
+          "expected_label": 0,
+          "accuracy": 1.0,
+          "mean_probability_feasible": 0.014448991262049663,
+          "min_probability_feasible": 0.01092922780662775,
+          "max_probability_feasible": 0.016932904720306396
+        },
+        "o4_trimethylsilyl": {
+          "n": 202,
+          "expected_label": 0,
+          "accuracy": 1.0,
+          "mean_probability_feasible": 0.010780107354431754,
+          "min_probability_feasible": 0.009960032999515533,
+          "max_probability_feasible": 0.011348498053848743
+        }
+      },
+      "batch_size_max_abs_difference": 1.1920928955078125e-07,
+      "deterministic_batch_check": true,
+      "repeat_max_abs_difference": 1.1920928955078125e-07,
+      "repeat_class_match": true,
+      "repeat_check": true,
+      "cpu_gpu_class_match": true
+    },
+    {
+      "seed": 2,
+      "checkpoint": "artifacts/checkpoints/layer1_no_o4_external_role_v1/seed2.pt",
+      "acceptor_role_names": [
+        "O4",
+        "C4",
+        "C3",
+        "C5",
+        "C2",
+        "O5",
+        "C1",
+        "N2_SUB_ENTRY",
+        "N2_SUBGRAPH",
+        "PG_ENTRY"
+      ],
+      "explicit_o4_external_role_channel": false,
+      "test_n": 404,
+      "test_metrics": {
+        "accuracy": 1.0,
+        "balanced_accuracy": 1.0,
+        "macro_f1": 1.0,
+        "confusion_matrix": "[[202, 0], [0, 202]]",
+        "auroc": 1.0,
+        "auprc": 1.0
+      },
+      "stress": {
+        "overall": {
+          "accuracy": 1.0,
+          "balanced_accuracy": 1.0,
+          "macro_f1": 1.0,
+          "confusion_matrix": "[[606, 0], [0, 21]]",
+          "auroc": 1.0,
+          "auprc": 1.0
+        },
+        "n": 627,
+        "non_target_oh_acetyl": {
+          "n": 21,
+          "expected_label": 1,
+          "accuracy": 1.0,
+          "mean_probability_feasible": 0.9877343745458693,
+          "min_probability_feasible": 0.9873864054679871,
+          "max_probability_feasible": 0.9884374737739563
+        },
+        "o4_benzyl": {
+          "n": 202,
+          "expected_label": 0,
+          "accuracy": 1.0,
+          "mean_probability_feasible": 0.013221076602060901,
+          "min_probability_feasible": 0.012772216461598873,
+          "max_probability_feasible": 0.013466223143041134
+        },
+        "o4_methyl": {
+          "n": 202,
+          "expected_label": 0,
+          "accuracy": 1.0,
+          "mean_probability_feasible": 0.013304206408966,
+          "min_probability_feasible": 0.012824654579162598,
+          "max_probability_feasible": 0.013566914945840836
+        },
+        "o4_trimethylsilyl": {
+          "n": 202,
+          "expected_label": 0,
+          "accuracy": 1.0,
+          "mean_probability_feasible": 0.013374596506836686,
+          "min_probability_feasible": 0.012888137251138687,
+          "max_probability_feasible": 0.013641223311424255
+        }
+      },
+      "batch_size_max_abs_difference": 1.1920928955078125e-07,
+      "deterministic_batch_check": true,
+      "repeat_max_abs_difference": 1.3969838619232178e-08,
+      "repeat_class_match": true,
+      "repeat_check": true,
+      "cpu_gpu_class_match": true
+    }
+  ],
+  "layer2": {
+    "method": "weighted_knn_applicability_domain_v1_2",
+    "checks": {
+      "u_pool_qa_pass": true,
+      "weights_match": true,
+      "not_called_probability": true,
+      "not_a_hard_gate": true,
+      "five_u_pools": true
+    },
+    "overall_status": "passed",
+    "test_summary": {
+      "recall_at_5pct": {
+        "mean": 0.5487394957983194,
+        "std": 0.009672995322034755,
+        "min": 0.5378151260504201,
+        "max": 0.5630252100840336
+      },
+      "recall_at_10pct": {
+        "mean": 0.6647058823529411,
+        "std": 0.0035153782627482043,
+        "min": 0.6596638655462185,
+        "max": 0.6680672268907563
+      },
+      "recall_at_20pct": {
+        "mean": 0.7857142857142857,
+        "std": 0.0,
+        "min": 0.7857142857142857,
+        "max": 0.7857142857142857
+      },
+      "recall_at_n_positive": {
+        "mean": 0.5957983193277311,
+        "std": 0.0046027105672702875,
+        "min": 0.592436974789916,
+        "max": 0.6008403361344538
+      },
+      "mean_positive_percentile": {
+        "mean": 0.841583836056093,
+        "std": 0.0012439839219724538,
+        "min": 0.8405381064955532,
+        "max": 0.8437001278052592
+      }
+    },
+    "pool_stability": {
+      "positive_rank_spearman_mean": 1.0,
+      "positive_rank_spearman_min": 1.0
+    },
+    "interpretation": "literature support/applicability domain; not reaction probability"
+  },
+  "layer3": [
+    {
+      "seed": 0,
+      "checkpoint": "artifacts/checkpoints/layer3_v1/chiral_gine_crossattn_tri_l3_split_pair_group_seed0_v1.pt",
+      "threshold": 0.8049999999999999,
+      "score_semantics": "class-1 Beta softmax score; not calibrated probability",
+      "cpu_gpu_class_match": true,
+      "val": {
+        "n": 239,
+        "metrics": {
+          "accuracy": 0.9330543933054394,
+          "balanced_accuracy": 0.9354470466931801,
+          "macro_f1": 0.9303613053613053,
+          "confusion_matrix": "[[88, 5], [11, 135]]",
+          "auroc": 0.9740020621593755,
+          "auprc": 0.975876753266484
+        },
+        "batch_size_max_abs_difference": 3.5762786865234375e-07,
+        "deterministic_batch_check": true,
+        "repeat_max_abs_difference": 1.7881393432617188e-07,
+        "repeat_class_match": true,
+        "repeat_check": true,
+        "reproduced_validation_threshold": 0.8049999999999999,
+        "threshold_reproduced": true
+      },
+      "test": {
+        "n": 238,
+        "metrics": {
+          "accuracy": 0.9369747899159664,
+          "balanced_accuracy": 0.9387470657276995,
+          "macro_f1": 0.9350472135800447,
+          "confusion_matrix": "[[91, 5], [10, 132]]",
+          "auroc": 0.9794600938967136,
+          "auprc": 0.979457383170262
+        },
+        "batch_size_max_abs_difference": 2.086162567138672e-07,
+        "deterministic_batch_check": true,
+        "repeat_max_abs_difference": 1.4901161193847656e-07,
+        "repeat_class_match": true,
+        "repeat_check": true,
+        "reproduced_validation_threshold": null,
+        "threshold_reproduced": true
+      }
+    },
+    {
+      "seed": 1,
+      "checkpoint": "artifacts/checkpoints/layer3_v1/chiral_gine_crossattn_tri_l3_split_pair_group_seed1_v1.pt",
+      "threshold": 0.8599999999999999,
+      "score_semantics": "class-1 Beta softmax score; not calibrated probability",
+      "cpu_gpu_class_match": true,
+      "val": {
+        "n": 239,
+        "metrics": {
+          "accuracy": 0.9330543933054394,
+          "balanced_accuracy": 0.941302106348505,
+          "macro_f1": 0.9310245310245311,
+          "confusion_matrix": "[[91, 2], [14, 132]]",
+          "auroc": 0.9809986743261158,
+          "auprc": 0.9799728443077883
+        },
+        "batch_size_max_abs_difference": 2.086162567138672e-07,
+        "deterministic_batch_check": true,
+        "repeat_max_abs_difference": 2.086162567138672e-07,
+        "repeat_class_match": true,
+        "repeat_check": true,
+        "reproduced_validation_threshold": 0.8599999999999999,
+        "threshold_reproduced": true
+      },
+      "test": {
+        "n": 238,
+        "metrics": {
+          "accuracy": 0.9369747899159664,
+          "balanced_accuracy": 0.9370598591549295,
+          "macro_f1": 0.9348480700793869,
+          "confusion_matrix": "[[90, 6], [9, 133]]",
+          "auroc": 0.9649354460093896,
+          "auprc": 0.9561752126719139
+        },
+        "batch_size_max_abs_difference": 4.76837158203125e-07,
+        "deterministic_batch_check": true,
+        "repeat_max_abs_difference": 1.7881393432617188e-07,
+        "repeat_class_match": true,
+        "repeat_check": true,
+        "reproduced_validation_threshold": null,
+        "threshold_reproduced": true
+      }
+    },
+    {
+      "seed": 2,
+      "checkpoint": "artifacts/checkpoints/layer3_v1/chiral_gine_crossattn_tri_l3_split_pair_group_seed2_v1.pt",
+      "threshold": 0.5549999999999999,
+      "score_semantics": "class-1 Beta softmax score; not calibrated probability",
+      "cpu_gpu_class_match": true,
+      "val": {
+        "n": 239,
+        "metrics": {
+          "accuracy": 0.9497907949790795,
+          "balanced_accuracy": 0.9471939902783915,
+          "macro_f1": 0.9471939902783915,
+          "confusion_matrix": "[[87, 6], [6, 140]]",
+          "auroc": 0.9851229930770363,
+          "auprc": 0.9913695933759571
+        },
+        "batch_size_max_abs_difference": 3.5762786865234375e-07,
+        "deterministic_batch_check": true,
+        "repeat_max_abs_difference": 1.7881393432617188e-07,
+        "repeat_class_match": true,
+        "repeat_check": true,
+        "reproduced_validation_threshold": 0.5549999999999999,
+        "threshold_reproduced": true
+      },
+      "test": {
+        "n": 238,
+        "metrics": {
+          "accuracy": 0.9495798319327731,
+          "balanced_accuracy": 0.9459360328638498,
+          "macro_f1": 0.947442031652558,
+          "confusion_matrix": "[[89, 7], [5, 137]]",
+          "auroc": 0.963981807511737,
+          "auprc": 0.9488954565461862
+        },
+        "batch_size_max_abs_difference": 3.129243850708008e-07,
+        "deterministic_batch_check": true,
+        "repeat_max_abs_difference": 1.341104507446289e-07,
+        "repeat_class_match": true,
+        "repeat_check": true,
+        "reproduced_validation_threshold": null,
+        "threshold_reproduced": true
+      }
+    }
+  ],
+  "condition_screening": {
+    "checks": {
+      "template_count": true,
+      "unique_template_ids": true,
+      "complete_condition_flags": true,
+      "supporting_reaction_count": true,
+      "all_curated_templates_used": true,
+      "no_catalyst_exclusion_metadata": true,
+      "not_called_probability": true,
+      "recipe_limitation_recorded": true,
+      "unanimous_vote_policy_recorded": true,
+      "exploratory_rescue_policy_recorded": true
+    },
+    "template_counts_by_donor_type": {
+      "thioglycoside": 291,
+      "trichloroacetimidate": 200,
+      "trifluoroacetimidate": 48
+    },
+    "overall_status": "passed"
+  },
+  "overall_status": "passed"
+}
