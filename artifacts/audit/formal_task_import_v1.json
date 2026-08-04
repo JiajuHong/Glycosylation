@@ -1,0 +1,205 @@
+{
+  "source_workbook": "data/raw/预测任务表.xlsx",
+  "source_sha256": "e9e7a9e4711b5cc0ba8c4936e5368a184d7629030703506267daddc29af27c53",
+  "extraction_method": "cell-value extraction from task label row plus two rows",
+  "task_count": 19,
+  "counts_by_class": {
+    "1": 8,
+    "2": 10,
+    "3": 1
+  },
+  "duplicate_source_labels": {
+    "1:任务7": 2,
+    "2:任务7": 2
+  },
+  "task_ids_unique": true,
+  "task_rows": [
+    {
+      "Task_ID": "C1_T01",
+      "Task_Class": 1,
+      "Task_Label": "任务1",
+      "Source_Sheet": "第一类预测任务",
+      "Source_Row": 4,
+      "Target_Config": "Alpha",
+      "Task_Mode": "standard"
+    },
+    {
+      "Task_ID": "C1_T02",
+      "Task_Class": 1,
+      "Task_Label": "任务2",
+      "Source_Sheet": "第一类预测任务",
+      "Source_Row": 16,
+      "Target_Config": "Alpha",
+      "Task_Mode": "standard"
+    },
+    {
+      "Task_ID": "C1_T03",
+      "Task_Class": 1,
+      "Task_Label": "任务3",
+      "Source_Sheet": "第一类预测任务",
+      "Source_Row": 28,
+      "Target_Config": "Beta",
+      "Task_Mode": "standard"
+    },
+    {
+      "Task_ID": "C1_T04",
+      "Task_Class": 1,
+      "Task_Label": "任务4",
+      "Source_Sheet": "第一类预测任务",
+      "Source_Row": 44,
+      "Target_Config": "Beta",
+      "Task_Mode": "standard"
+    },
+    {
+      "Task_ID": "C1_T05",
+      "Task_Class": 1,
+      "Task_Label": "任务5",
+      "Source_Sheet": "第一类预测任务",
+      "Source_Row": 57,
+      "Target_Config": "Beta",
+      "Task_Mode": "standard"
+    },
+    {
+      "Task_ID": "C1_T06",
+      "Task_Class": 1,
+      "Task_Label": "任务6",
+      "Source_Sheet": "第一类预测任务",
+      "Source_Row": 72,
+      "Target_Config": "Alpha",
+      "Task_Mode": "standard"
+    },
+    {
+      "Task_ID": "C1_T07",
+      "Task_Class": 1,
+      "Task_Label": "任务7",
+      "Source_Sheet": "第一类预测任务",
+      "Source_Row": 87,
+      "Target_Config": "Beta",
+      "Task_Mode": "standard"
+    },
+    {
+      "Task_ID": "C1_T08",
+      "Task_Class": 1,
+      "Task_Label": "任务7",
+      "Source_Sheet": "第一类预测任务",
+      "Source_Row": 103,
+      "Target_Config": "Beta",
+      "Task_Mode": "standard"
+    },
+    {
+      "Task_ID": "C2_T01",
+      "Task_Class": 2,
+      "Task_Label": "任务1",
+      "Source_Sheet": "第二类预测任务",
+      "Source_Row": 4,
+      "Target_Config": "Beta",
+      "Task_Mode": "standard"
+    },
+    {
+      "Task_ID": "C2_T02",
+      "Task_Class": 2,
+      "Task_Label": "任务2",
+      "Source_Sheet": "第二类预测任务",
+      "Source_Row": 16,
+      "Target_Config": "Beta",
+      "Task_Mode": "standard"
+    },
+    {
+      "Task_ID": "C2_T03",
+      "Task_Class": 2,
+      "Task_Label": "任务3",
+      "Source_Sheet": "第二类预测任务",
+      "Source_Row": 28,
+      "Target_Config": "Alpha",
+      "Task_Mode": "standard"
+    },
+    {
+      "Task_ID": "C2_T04",
+      "Task_Class": 2,
+      "Task_Label": "任务4",
+      "Source_Sheet": "第二类预测任务",
+      "Source_Row": 44,
+      "Target_Config": "Alpha",
+      "Task_Mode": "standard"
+    },
+    {
+      "Task_ID": "C2_T05",
+      "Task_Class": 2,
+      "Task_Label": "任务5",
+      "Source_Sheet": "第二类预测任务",
+      "Source_Row": 57,
+      "Target_Config": "Alpha",
+      "Task_Mode": "standard"
+    },
+    {
+      "Task_ID": "C2_T06",
+      "Task_Class": 2,
+      "Task_Label": "任务6",
+      "Source_Sheet": "第二类预测任务",
+      "Source_Row": 72,
+      "Target_Config": "Beta",
+      "Task_Mode": "standard"
+    },
+    {
+      "Task_ID": "C2_T07",
+      "Task_Class": 2,
+      "Task_Label": "任务7",
+      "Source_Sheet": "第二类预测任务",
+      "Source_Row": 87,
+      "Target_Config": "Alpha",
+      "Task_Mode": "standard"
+    },
+    {
+      "Task_ID": "C2_T08",
+      "Task_Class": 2,
+      "Task_Label": "任务7",
+      "Source_Sheet": "第二类预测任务",
+      "Source_Row": 103,
+      "Target_Config": "Alpha",
+      "Task_Mode": "standard"
+    },
+    {
+      "Task_ID": "C2_T09",
+      "Task_Class": 2,
+      "Task_Label": "任务8",
+      "Source_Sheet": "第二类预测任务",
+      "Source_Row": 119,
+      "Target_Config": "Alpha",
+      "Task_Mode": "standard"
+    },
+    {
+      "Task_ID": "C2_T10",
+      "Task_Class": 2,
+      "Task_Label": "任务9",
+      "Source_Sheet": "第二类预测任务",
+      "Source_Row": 131,
+      "Target_Config": "Beta",
+      "Task_Mode": "standard"
+    },
+    {
+      "Task_ID": "C3_T01",
+      "Task_Class": 3,
+      "Task_Label": "任务1",
+      "Source_Sheet": "第三类预测任务",
+      "Source_Row": 1,
+      "Target_Config": "Any",
+      "Task_Mode": "exploratory_rescue"
+    }
+  ],
+  "original_condition_incomplete_tasks": [
+    "C1_T06",
+    "C1_T07",
+    "C1_T08",
+    "C2_T06",
+    "C2_T07",
+    "C2_T08",
+    "C2_T09",
+    "C2_T10",
+    "C3_T01"
+  ],
+  "interpretation": {
+    "class_1": "seek a different condition for the same product configuration",
+    "class_2": "seek a different condition for the opposite product configuration",
+    "class_3": "exploratory rescue only; reaction success is not guaranteed"
+  }
+}

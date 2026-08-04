@@ -286,6 +286,10 @@ def audit_condition_screening(manifest: dict[str, Any], root: Path) -> dict[str,
         }.intersection(library.columns),
         "not_called_probability": "not a success probability" in config["interpretation"],
         "recipe_limitation_recorded": "verify equivalents" in config["recipe_limitation"],
+        "original_condition_exclusion_recorded": (
+            "Source_Reaction_ID" in config["original_condition_exclusion"]
+            and "condition key" in config["original_condition_exclusion"]
+        ),
         "unanimous_vote_policy_recorded": (
             "A requires 3/3" in config["ranking"]
             and "B requires 3/3" in config["ranking"]

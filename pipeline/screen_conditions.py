@@ -158,6 +158,13 @@ def template_condition_key(row: pd.Series) -> tuple[str, str, float, float]:
     )
 
 
+def template_supporting_reaction_ids(row: pd.Series) -> set[str]:
+    value = row.get("Supporting_Reaction_IDs")
+    if missing(value):
+        return set()
+    return {item.strip() for item in str(value).split(";") if item.strip()}
+
+
 def prepare_tasks(tasks: pd.DataFrame, library: pd.DataFrame) -> tuple[pd.DataFrame, dict[str, Any]]:
     required = {"Donor_Canonical_SMILES", "Acceptor_Canonical_SMILES"}
     absent = required - set(tasks.columns)
@@ -171,6 +178,8 @@ def prepare_tasks(tasks: pd.DataFrame, library: pd.DataFrame) -> tuple[pd.DataFr
 
     candidate_rows: list[dict[str, Any]] = []
     excluded_original = 0
+    excluded_by_condition_key = 0
+    excluded_by_source_reaction = 0
     task_summaries: list[dict[str, Any]] = []
     for _, task in tasks.iterrows():
         task_id = str(task["Task_ID"])
@@ -199,11 +208,26 @@ def prepare_tasks(tasks: pd.DataFrame, library: pd.DataFrame) -> tuple[pd.DataFr
         if templates.empty:
             raise ValueError(f"{task_id}: 条件库中没有 {donor_type} 模板")
         original_key = original_condition_key(task)
+        source_reaction_id = (
+            None
+            if missing(task.get("Source_Reaction_ID"))
+            else str(task["Source_Reaction_ID"]).strip()
+        )
         kept = 0
         for _, template in templates.iterrows():
-            matches_original = original_key is not None and template_condition_key(template) == original_key
+            matches_condition_key = (
+                original_key is not None
+                and template_condition_key(template) == original_key
+            )
+            matches_source_reaction = (
+                source_reaction_id is not None
+                and source_reaction_id in template_supporting_reaction_ids(template)
+            )
+            matches_original = matches_condition_key or matches_source_reaction
             if matches_original:
                 excluded_original += 1
+                excluded_by_condition_key += int(matches_condition_key)
+                excluded_by_source_reaction += int(matches_source_reaction)
                 continue
             record = task.to_dict()
             record.update(
@@ -253,6 +277,7 @@ def prepare_tasks(tasks: pd.DataFrame, library: pd.DataFrame) -> tuple[pd.DataFr
                 "Task_Mode": task_mode,
                 "Candidate_Count": kept,
                 "Original_Condition_Complete": original_key is not None,
+                "Source_Reaction_ID_Provided": source_reaction_id is not None,
             }
         )
 
@@ -261,6 +286,8 @@ def prepare_tasks(tasks: pd.DataFrame, library: pd.DataFrame) -> tuple[pd.DataFr
     return pd.DataFrame(candidate_rows), {
         "tasks": task_summaries,
         "excluded_original_conditions": excluded_original,
+        "excluded_by_condition_key": excluded_by_condition_key,
+        "excluded_by_source_reaction": excluded_by_source_reaction,
     }
 
 

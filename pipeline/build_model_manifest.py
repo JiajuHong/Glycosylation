@@ -63,7 +63,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=Path("."))
     parser.add_argument("--output", type=Path, default=Path("artifacts/model_manifest_v2.json"))
-    parser.add_argument("--pipeline-version", default="1.3.0")
+    parser.add_argument("--pipeline-version", default="1.3.1")
     parser.add_argument(
         "--source-git-commit",
         help=(
@@ -237,6 +237,10 @@ def main() -> int:
                 "candidate_scope": (
                     "all observed complete templates within the resolved donor type; "
                     "Catalyst records are used as curated without additional exclusion"
+                ),
+                "original_condition_exclusion": (
+                    "exclude by normalized condition key and by membership of Source_Reaction_ID "
+                    "in the template supporting reactions"
                 ),
                 "ranking": (
                     "Alpha/Beta: A requires 3/3 target votes in-domain; B requires 3/3 "

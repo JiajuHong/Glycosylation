@@ -90,6 +90,37 @@ class ConditionLibraryTests(unittest.TestCase):
         self.assertEqual(
             audit["excluded_original_conditions"], 1
         )
+        self.assertEqual(audit["excluded_by_condition_key"], 1)
+        self.assertEqual(audit["excluded_by_source_reaction"], 0)
+
+    def test_task_excludes_template_containing_source_reaction_id(self) -> None:
+        original = self.library.loc[
+            self.library["Donor_Type"].eq("trifluoroacetimidate")
+        ].iloc[0]
+        tasks = pd.DataFrame(
+            [
+                {
+                    "Task_ID": "source_reaction_task",
+                    "Source_Reaction_ID": original["Representative_Reaction_ID"],
+                    "Donor_Canonical_SMILES": DONOR,
+                    "Acceptor_Canonical_SMILES": ACCEPTOR,
+                    "Target_Config": "Beta",
+                }
+            ]
+        )
+
+        candidates, audit = prepare_tasks(tasks, self.library)
+
+        donor_type_count = int(
+            self.library.loc[
+                self.library["Donor_Type"].eq("trifluoroacetimidate")
+            ].shape[0]
+        )
+        self.assertEqual(len(candidates), donor_type_count - 1)
+        self.assertFalse(candidates["Template_ID"].eq(original["Template_ID"]).any())
+        self.assertEqual(audit["excluded_original_conditions"], 1)
+        self.assertEqual(audit["excluded_by_condition_key"], 0)
+        self.assertEqual(audit["excluded_by_source_reaction"], 1)
 
     def test_third_class_is_normalized_to_exploratory_rescue(self) -> None:
         tasks = pd.DataFrame(
