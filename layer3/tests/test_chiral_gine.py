@@ -275,6 +275,39 @@ class ModelIntegrationTests(unittest.TestCase):
         self.assertIsInstance(ordinary.donor_encoder, GINEEncoder)
         self.assertIsInstance(chiral.donor_encoder, ChiralGINEEncoder)
 
+    def test_l3_requires_conditions(self):
+        batch = glyco_collate_fn([self.dataset[0], self.dataset[1]])
+        dims = get_feature_dims(self.dataset)
+        model = build_glyco_gine_model(
+            "crossattn_tri", *dims, hidden_dim=16, num_layers=1,
+            dropout=0.0, encoder_type="chiral_gine",
+        )
+        self.assertIsNotNone(model.condition_encoder)
+        self.assertEqual(model.classifier[0].in_features, 9 * 16)
+        keys = (
+            "donor_graph", "acceptor_graph", "donor_rfu_atom_indices",
+            "donor_rfu_mask", "acceptor_oh_local_atom_indices", "acceptor_oh_mask",
+            "donor_rfu_role_matrix", "acceptor_oh_role_matrix",
+            "donor_c1_local_pos", "acceptor_o4_local_pos",
+        )
+        structural_batch = {key: batch[key] for key in keys}
+        with self.assertRaises(KeyError):
+            model(structural_batch)
+        logits = model(batch)
+        torch.nn.functional.cross_entropy(logits, batch["label"]).backward()
+        self.assertTrue(any(p.grad is not None for p in model.donor_encoder.parameters()))
+
+    def test_full_conditions_default_preserves_state_dict(self):
+        dims = get_feature_dims(self.dataset)
+        kwargs = dict(hidden_dim=16, num_layers=1, dropout=0.0, encoder_type="chiral_gine")
+        torch.manual_seed(17)
+        default = build_glyco_gine_model("crossattn_tri", *dims, **kwargs)
+        torch.manual_seed(17)
+        explicit = build_glyco_gine_model("crossattn_tri", *dims, **kwargs)
+        explicit.load_state_dict(default.state_dict(), strict=True)
+        batch = glyco_collate_fn([self.dataset[0], self.dataset[1]])
+        torch.testing.assert_close(default(batch), explicit(batch), rtol=0, atol=0)
+
     def test_all_existing_model_variants_support_forward_and_backward(self):
         batch = glyco_collate_fn([self.dataset[0], self.dataset[1]])
         atom_dim, bond_dim, num_solvent, num_catalyst = get_feature_dims(self.dataset)

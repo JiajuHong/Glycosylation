@@ -131,7 +131,7 @@ def main() -> int:
         "three_rows_returned": len(predictions) == 3,
         "statuses_match": observed == expected,
         "blocked_skips_layer2": bool(predictions.loc[
-            predictions["Acceptance_Case"].eq("known_o4_blocked"), "Soft_Domain_Status"
+            predictions["Acceptance_Case"].eq("known_o4_blocked"), "Condition_Transfer_Evidence"
         ].eq("not_evaluated").all()),
         "blocked_skips_layer3": bool(predictions.loc[
             predictions["Acceptance_Case"].eq("known_o4_blocked"), "Stereoselectivity_Label"
@@ -146,7 +146,18 @@ def main() -> int:
         ),
         "condition_screening_returns_recommendations": 1 <= len(screening) <= 3,
         "condition_screening_uses_target_support_tiers": bool(
-            screening["Recommendation_Tier"].isin(["A", "B", "C_EXPLORATORY"]).all()
+            screening["Recommendation_Tier"].isin(["A", "C_EXPLORATORY"]).all()
+        ),
+        "condition_screening_uses_transparent_evidence": bool(
+            {
+                "Pair_History",
+                "Condition_Transfer_Evidence",
+                "Nearest_Donor_Tanimoto",
+                "Nearest_Acceptor_Tanimoto",
+                "Nearest_Joint_Similarity",
+            }.issubset(screening.columns)
+            and "Soft_Domain_Status" not in screening.columns
+            and "Soft_Compatibility_Score" not in screening.columns
         ),
         "condition_screening_preserves_curated_catalyst_records": (
             "Catalyst_Mechanism_Role" not in screening.columns

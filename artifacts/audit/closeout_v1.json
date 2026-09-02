@@ -1,0 +1,8 @@
+{
+  "status": "passed",
+  "checked_artifact_count": 62,
+  "seed0_val_test_rows": 477,
+  "max_beta_score_difference": 2.980232238769531e-07,
+  "all_classifications_match": true,
+  "scope": "artifact hashes and unchanged default full-condition seed0 inference; not a new end-to-end audit"
+}

@@ -11,6 +11,9 @@ logs/
 # Server-resident binaries are SHA-256 pinned by the frozen manifest
 /checkpoints/
 /artifacts/checkpoints/
+# Recoverable experiment archives and generated source snapshots stay local/server.
+/artifacts/archives/
+/artifacts/releases/
 data/processed/*_cache.pt
 outputs/
 results/logs/

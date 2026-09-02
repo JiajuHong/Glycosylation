@@ -5,5 +5,5 @@ FINAL_STRUCTURALLY_INFEASIBLE = "structurally_infeasible"
 FINAL_PREDICTED = "predicted"
 FINAL_INTERNAL_ERROR = "internal_error"
 
-SOFT_NOT_EVALUATED = "not_evaluated"
+EVIDENCE_NOT_EVALUATED = "not_evaluated"
 STEREO_NOT_EVALUATED = "not_evaluated"

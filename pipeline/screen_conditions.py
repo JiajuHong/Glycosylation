@@ -51,25 +51,28 @@ TASK_MODE_MAP = {
 }
 TIER_ORDER = {
     "A": 0,
-    "A_RETRIEVAL": 0,
-    "B": 1,
-    "B_RETRIEVAL": 1,
-    "C_EXPLORATORY": 2,
-    "C_RESCUE_EXPLORATORY": 2,
-    "D_NOT_TARGET": 3,
-    "REJECT": 4,
+    "EVIDENCE_ONLY": 0,
+    "C_EXPLORATORY": 1,
+    "C_RESCUE_EXPLORATORY": 1,
+    "D_NOT_TARGET": 2,
+    "REJECT": 3,
 }
 TIER_LABEL = {
     "A": "优先",
-    "A_RETRIEVAL": "优先",
-    "B": "谨慎",
-    "B_RETRIEVAL": "谨慎",
+    "EVIDENCE_ONLY": "文献证据",
     "C_EXPLORATORY": "探索",
     "C_RESCUE_EXPLORATORY": "探索性救援",
     "D_NOT_TARGET": "不推荐",
-    "REJECT": "硬结构不通过",
+    "REJECT": "目标 O4 结构不通过",
 }
-DOMAIN_ORDER = {"in_domain": 0, "borderline": 1, "out_of_domain": 2, "not_evaluated": 3}
+EVIDENCE_ORDER = {
+    "exact_pair_exact_condition": 0,
+    "same_donor_condition": 1,
+    "same_acceptor_condition": 1,
+    "analog_condition": 2,
+    "template_only": 3,
+    "not_evaluated": 4,
+}
 
 
 def missing(value: object) -> bool:
@@ -324,22 +327,13 @@ def add_ranking_fields(predictions: pd.DataFrame) -> pd.DataFrame:
     def tier(row: pd.Series) -> str:
         if row["Final_Status"] != "predicted":
             return "REJECT"
-        domain = str(row["Soft_Domain_Status"])
         if row["Task_Mode"] == TASK_MODE_EXPLORATORY_RESCUE:
             return "C_RESCUE_EXPLORATORY"
         if row["Target_Config"] == "Any":
-            if domain == "in_domain":
-                return "A_RETRIEVAL"
-            if domain == "borderline":
-                return "B_RETRIEVAL"
-            return "C_EXPLORATORY"
+            return "EVIDENCE_ONLY"
         votes = int(row["Target_Vote_Count"])
         if votes == len(vote_columns):
-            if domain == "in_domain":
-                return "A"
-            if domain == "borderline":
-                return "B"
-            return "C_EXPLORATORY"
+            return "A"
         if votes >= majority:
             return "C_EXPLORATORY"
         return "D_NOT_TARGET"
@@ -347,7 +341,9 @@ def add_ranking_fields(predictions: pd.DataFrame) -> pd.DataFrame:
     frame["Recommendation_Tier"] = frame.apply(tier, axis=1)
     frame["Recommendation_Level"] = frame["Recommendation_Tier"].map(TIER_LABEL)
     frame["Tier_Order"] = frame["Recommendation_Tier"].map(TIER_ORDER)
-    frame["Domain_Order"] = frame["Soft_Domain_Status"].map(DOMAIN_ORDER).fillna(9)
+    frame["Evidence_Order"] = (
+        frame["Condition_Transfer_Evidence"].map(EVIDENCE_ORDER).fillna(9)
+    )
     frame["Temp_Bin_20C"] = (pd.to_numeric(frame["Temp_C"]) / 20.0).round().astype(int)
     frame["Diversity_Key"] = (
         frame["Catalyst_Component_IDs"].astype(str)
@@ -361,8 +357,8 @@ def add_ranking_fields(predictions: pd.DataFrame) -> pd.DataFrame:
             "Task_ID",
             "Tier_Order",
             "Target_Vote_Count",
-            "Domain_Order",
-            "Soft_Compatibility_Score",
+            "Evidence_Order",
+            "Nearest_Joint_Similarity",
             "Target_Stereo_Score",
             "Template_Support_Count",
             "Template_ID",
@@ -382,9 +378,7 @@ def select_diverse_recommendations(ranked: pd.DataFrame, top_n: int) -> pd.DataF
         used_diversity: set[str] = set()
         for tier in (
             "A",
-            "A_RETRIEVAL",
-            "B",
-            "B_RETRIEVAL",
+            "EVIDENCE_ONLY",
             "C_RESCUE_EXPLORATORY",
             "C_EXPLORATORY",
         ):
@@ -416,26 +410,26 @@ def select_diverse_recommendations(ranked: pd.DataFrame, top_n: int) -> pd.DataF
     def recommendation_reason(row: pd.Series) -> str:
         if row["Task_Mode"] == TASK_MODE_EXPLORATORY_RESCUE:
             return (
-                f"{row['Recommendation_Tier']}; {row['Soft_Domain_Status']}; "
+                f"{row['Recommendation_Tier']}; condition evidence={row['Condition_Transfer_Evidence']}; "
                 "exploratory rescue only; reaction success is not guaranteed; "
                 f"template support={int(row['Template_Support_Count'])}"
             )
         if row["Target_Config"] == "Any":
             return (
-                f"{row['Recommendation_Tier']}; {row['Soft_Domain_Status']}; "
+                f"{row['Recommendation_Tier']}; condition evidence={row['Condition_Transfer_Evidence']}; "
                 "stereochemistry not used for retrieval ranking; "
                 f"template support={int(row['Template_Support_Count'])}"
             )
         return (
-            f"{row['Recommendation_Tier']}; {row['Soft_Domain_Status']}; "
+            f"{row['Recommendation_Tier']}; condition evidence={row['Condition_Transfer_Evidence']}; "
             f"{int(row['Target_Vote_Count'])}/{int(row['Ensemble_Size'])} seeds support "
             f"{row['Target_Config']}; template support={int(row['Template_Support_Count'])}"
         )
 
     selected["Recommendation_Reason"] = selected.apply(recommendation_reason, axis=1)
     selected["Score_Interpretation"] = (
-        "screening priority only; soft compatibility is literature support and Beta/Alpha score "
-        "is not calibrated reaction-success probability"
+        "screening priority only; literature fields report traceable precedents and raw "
+        "Tanimoto similarities; Beta/Alpha score is not a reaction-success probability"
     )
     selected["Wet_Lab_Use_Requirement"] = (
         "verify full equivalents, concentration, addition order, atmosphere and work-up in the "

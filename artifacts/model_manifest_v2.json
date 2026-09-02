@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
-  "pipeline_version": "1.3.1",
-  "created_utc": "2026-08-04T11:16:23.379932+00:00",
+  "pipeline_version": "1.5.0",
+  "created_utc": "2026-09-02T08:19:08.584911+00:00",
   "project_root": "..",
   "task_definition": {
-    "layer1": "硬结构可行性模型：判断目标 O4 是否满足必要结构条件",
-    "layer2": "成功文献反应域内的软兼容性/文献支持度排序",
+    "layer1": "目标 O4 结构门控：判断目标位点是否满足必要结构条件",
+    "layer2": "可追溯的成功文献先例检索；不定义适用域或成功概率",
     "layer3": "在反应发生前提下的Alpha/Beta立体选择性分类"
   },
   "label_mapping": {
@@ -14,8 +14,7 @@
   },
   "score_semantics": {
     "layer1_class1": "structurally feasible score",
-    "layer2": "similarity-based literature support score; not reaction probability",
-    "layer2_percentile_scale": "0-100",
+    "layer2": "identity counts and raw donor/acceptor Tanimoto similarities; no aggregate compatibility score or applicability-domain label",
     "layer3_class1": "Beta softmax score; not a calibrated probability"
   },
   "layer1": {
@@ -109,29 +108,28 @@
     }
   },
   "layer2": {
-    "method": "weighted_knn_applicability_domain_v1_2",
-    "weights": {
-      "donor": 0.4,
-      "acceptor": 0.4,
-      "context": 0.2
-    },
+    "method": "transparent_condition_transfer_evidence_v3",
     "reference_split": "all",
+    "fingerprint": "Morgan radius 2, 2048 bits, chirality-aware Tanimoto",
+    "joint_similarity": "minimum(donor_tanimoto, acceptor_tanimoto)",
+    "pair_history_types": [
+      "known_pair",
+      "novel_pair"
+    ],
+    "condition_transfer_evidence_types": [
+      "exact_pair_exact_condition",
+      "same_donor_condition",
+      "same_acceptor_condition",
+      "analog_condition",
+      "template_only"
+    ],
     "positive_reference": {
       "path": "data/processed/soft_compatibility_positive_1561.csv",
       "sha256": "1371e9abb1b1be357d7498cb1c1521092c15af9dfbed0597e37935e171c9c7cd",
       "size_bytes": 2278264
     },
-    "unlabeled_evaluation_pools": {
-      "path": "data/processed/soft_compatibility_u_candidates.csv",
-      "sha256": "19e8420e29d76559a74bc15d254575afe10a6cc6ae0a1020673b05da42f168af",
-      "size_bytes": 30407626
-    },
-    "audit": {
-      "path": "results/soft_compatibility_knn_audit.json",
-      "sha256": "fbce38d6fae31cce9fef8d1839e67d79fc2f9bd9eff54f0d559efdf13644386e",
-      "size_bytes": 14726
-    },
-    "hard_gate": false
+    "hard_gate": false,
+    "scope_limitation": "separates donor-acceptor pair history from evidence for transferring the current condition; pair history is descriptive and excluded from ranking"
   },
   "layer3": {
     "checkpoints": [
@@ -225,7 +223,7 @@
       "complete_supporting_reactions": 1058,
       "candidate_scope": "all observed complete templates within the resolved donor type; Catalyst records are used as curated without additional exclusion",
       "original_condition_exclusion": "exclude by normalized condition key and by membership of Source_Reaction_ID in the template supporting reactions",
-      "ranking": "Alpha/Beta: A requires 3/3 target votes in-domain; B requires 3/3 target votes at the domain boundary; 2/3 disagreement or out-of-domain is exploratory; Any: domain and soft-support retrieval without stereo ranking",
+      "ranking": "Alpha/Beta: A requires 3/3 target votes; 2/3 is exploratory; at most 1/3 is not recommended. Within a vote tier, rank transparent literature precedent before joint structure similarity and template support. Any: literature-evidence retrieval without stereo ranking",
       "rescue_policy": "Task_Mode=exploratory_rescue is always labelled exploratory rescue; reaction success is not guaranteed",
       "diversity": "catalyst, solvent and 20-degree temperature bin",
       "hard_gate": false,
@@ -236,15 +234,15 @@
   "execution_policy": {
     "layer1_reject_skips_layer2": true,
     "layer1_reject_skips_layer3": true,
-    "domain_status_is_not_final_status": true,
+    "literature_evidence_is_not_model_confidence": true,
     "seed_disagreement_is_reported_separately": true
   },
   "environment": {
     "scope": "frozen inference, audit and tests; model retraining is out of scope",
     "lock_file": {
       "path": "environment.server.yml",
-      "sha256": "bd0b45bed3f0a4da55fe9886ce094650936476784246d2e37ed88c14b13f3e07",
-      "size_bytes": 538
+      "sha256": "ee39c0b9e9a161489f7e42e1936b2abde355cf7801a62933017a434ffa13e070",
+      "size_bytes": 565
     },
     "python": "3.12.13",
     "platform": "Linux-6.8.0-136-generic-x86_64-with-glibc2.39",
@@ -258,23 +256,23 @@
     "scipy": "1.17.1"
   },
   "source": {
-    "git_commit": "cdb1a3b6dc6c4ef0aee93baff040d47c41b0243a",
-    "git_dirty": false,
+    "git_commit": "4ea756bbb2518180508acf6e73689688a9d9502b",
+    "git_dirty": true,
     "generation_worktree": {
       "git_commit": "4ea756bbb2518180508acf6e73689688a9d9502b",
       "git_dirty": true,
-      "source_commit_override": true
+      "source_commit_override": false
     },
     "files": [
       {
         "path": "pipeline/build_model_manifest.py",
-        "sha256": "967b1f865d31ddb6c7bb5959e191061cd5d1a8bbefc7fddea75c48a62dbd4664",
-        "size_bytes": 12651
+        "sha256": "cf5636d69534a69a476a765915e3d096e52b79740bffc0729dcc4b9654f3074c",
+        "size_bytes": 13174
       },
       {
         "path": "pipeline/audit_frozen_models.py",
-        "sha256": "ab3a5102d46f5d2f57a0b7e9abad02c9093634778df5de0f27767f5e6cf58520",
-        "size_bytes": 15991
+        "sha256": "2f23267cb3b61c57b62aae514472a8ed1580ca5aafdb0815801dc5c37fe59bc9",
+        "size_bytes": 16020
       },
       {
         "path": "pipeline/build_condition_library.py",
@@ -283,33 +281,33 @@
       },
       {
         "path": "pipeline/predict_three_layer.py",
-        "sha256": "8935df429afcee29afa282b2ff889f28ef1617255f4683aa37a8a5019874f100",
-        "size_bytes": 27228
+        "sha256": "65c40288782cec8620ffaa46002ed78909dd7f446b15d1375e5274a72b04d361",
+        "size_bytes": 27461
       },
       {
         "path": "pipeline/run_e2e_acceptance.py",
-        "sha256": "4e9df78884a2d2b853fb00fb2c6d757b34df3ad2e5d83bcb2cb0180895b9ceda",
-        "size_bytes": 7442
+        "sha256": "5a73e4c5f2cfdbb1eb2a1ceaaf1650d3ecd10020f1c62a1e40337465cbdeb35e",
+        "size_bytes": 7916
       },
       {
         "path": "pipeline/screen_conditions.py",
-        "sha256": "067966037dcec3059ad955ffbd4ba47054fa3fba0b5aef23f689a20c58c369af",
-        "size_bytes": 21069
+        "sha256": "416b68705fe46ce468d38e33bfd53cae95ab4b992c493f1b4e05f2cf35cbbfe8",
+        "size_bytes": 20867
       },
       {
         "path": "pipeline/status.py",
-        "sha256": "ea831b35a5450102fa63cb41e35f2da0e337582abe29c86e577e40dfed1126c8",
-        "size_bytes": 332
+        "sha256": "13a3c357d608da4d090d103bb321e381118450fff30536a0478f3a0adcae768f",
+        "size_bytes": 336
       },
       {
         "path": "pipeline/tests/test_condition_screening.py",
-        "sha256": "6e2e84c8963ba7255c12bc5906195a7323a0bef6d66ba8047debe029b15be447",
-        "size_bytes": 9661
+        "sha256": "2f7464450544e19df84b3073b3a15f16ec76157b23d6c86b225221b05c29a43c",
+        "size_bytes": 11449
       },
       {
         "path": "pipeline/tests/test_pipeline_contract.py",
-        "sha256": "8bf5682ecc2dde9370b785c4d10993fafc3dfa3c4e9d001792bb3dcb7d3b4fe7",
-        "size_bytes": 2188
+        "sha256": "06f8b9f6660b95e55481b802821c0100485d1aaa029f6465f0075d6f85d08e24",
+        "size_bytes": 2408
       },
       {
         "path": "layer1/predict_hard_feasibility.py",
@@ -347,19 +345,14 @@
         "size_bytes": 1507
       },
       {
-        "path": "layer2/score_soft_compatibility.py",
-        "sha256": "9858d7b65b7d1aeb40e4b7f130ad3cbe231f107ceecbdb071acc7d859add12e6",
-        "size_bytes": 19568
+        "path": "layer2/retrieve_literature_evidence.py",
+        "sha256": "557c09879391c97da6ac6dc50f2bb1ce1fbd623b4476a99e62a8fadf0aea3bca",
+        "size_bytes": 18174
       },
       {
-        "path": "layer2/build_soft_compatibility_u.py",
-        "sha256": "b8647d70f293534039d18686a4a30f2b8ec11fca1f67a0c95e9a2cbb87f54287",
-        "size_bytes": 9992
-      },
-      {
-        "path": "layer2/evaluate_soft_compatibility.py",
-        "sha256": "eef12950e937164772b6c7b282ead404f668cf222876c63635c43d8cbe01d65c",
-        "size_bytes": 15567
+        "path": "layer2/tests/test_literature_evidence.py",
+        "sha256": "ba3f6309b7afeb664270a0457e2cd9a7db424da72f2124fbd68b5f3ddc3a9641",
+        "size_bytes": 3218
       },
       {
         "path": "layer3/glyco_dataset.py",
@@ -388,13 +381,13 @@
       },
       {
         "path": "layer3/train_gine.py",
-        "sha256": "de4e88f1a817a5863b4d7ae1ff0ec2b0cdf13570e7560a6c3e901c6d0aa05e4f",
-        "size_bytes": 16566
+        "sha256": "72b3bfcf44d458e1e5b7708f12ca04814cc574d375c3d00abfe53f58835d2b3d",
+        "size_bytes": 16929
       },
       {
         "path": "layer3/tests/test_chiral_gine.py",
-        "sha256": "57857e1e16bc39f9129f4dbb7bdeae1b4561039b46629da24a4130183192f105",
-        "size_bytes": 13299
+        "sha256": "b8e0a63deee4220bc9345e524da1ba05991f9afa4a9ff2d718d7f83ece0bd15c",
+        "size_bytes": 15024
       },
       {
         "path": "models/__init__.py",
@@ -423,8 +416,8 @@
       },
       {
         "path": "models/glyco_gine_models.py",
-        "sha256": "8153f332a898933e28e22d13e531ca59f36647ad295ee6b926c43cfa321410ac",
-        "size_bytes": 10973
+        "sha256": "ec7027f856f973f0413d2e93789e29aaed6071f14c67c9268b6365e4ebe4a69c",
+        "size_bytes": 10910
       },
       {
         "path": "models/local_modules.py",

@@ -2,8 +2,8 @@
 """冻结版三层统一推理入口。
 
 第一层判断目标 O4 的硬结构可行性；只有通过第一层的候选才进入第二层
-文献支持度评分和第三层 α/β 立体选择性预测。第二层分数和第三层 softmax
-输出均不是经实验失败数据校准的反应成功概率。
+文献先例检索和第三层 α/β 立体选择性预测。第二层只报告身份计数、
+Tanimoto 相似度和来源，不定义适用域；第三层 softmax 也不是反应成功概率。
 """
 
 from __future__ import annotations
@@ -29,7 +29,7 @@ from layer1.predict_hard_feasibility import (
     run_probabilities as run_layer1_probabilities,
 )
 from layer1.train_hard_feasibility import collate as layer1_collate
-from layer2.score_soft_compatibility import (
+from layer2.retrieve_literature_evidence import (
     INTERPRETATION,
     missing,
     prepare_row,
@@ -44,7 +44,7 @@ from pipeline.status import (
     FINAL_INVALID_INPUT,
     FINAL_PREDICTED,
     FINAL_STRUCTURALLY_INFEASIBLE,
-    SOFT_NOT_EVALUATED,
+    EVIDENCE_NOT_EVALUATED,
     STEREO_NOT_EVALUATED,
 )
 
@@ -70,15 +70,20 @@ OUTPUT_DEFAULTS: dict[str, Any] = {
     "Layer1_Seed_Disagreement": False,
     "Layer1_Seed_Votes": "",
     "Layer1_Decision": "not_evaluated",
-    "Soft_Compatibility_Score": np.nan,
-    "Soft_TopK_Mean_Score": np.nan,
-    "Soft_Support_Percentile": np.nan,
-    "Soft_Domain_Q05": np.nan,
-    "Soft_Domain_Q10": np.nan,
-    "Soft_Domain_Status": SOFT_NOT_EVALUATED,
-    "Nearest_Success_Reaction_ID": "",
-    "Nearest_Success_Similarity": np.nan,
-    "Soft_Score_Interpretation": INTERPRETATION,
+    "Evidence_Retrieval_Status": EVIDENCE_NOT_EVALUATED,
+    "Pair_History": EVIDENCE_NOT_EVALUATED,
+    "Condition_Transfer_Evidence": EVIDENCE_NOT_EVALUATED,
+    "Exact_Pair_Condition_Precedent": False,
+    "Exact_Pair_Condition_Count": np.nan,
+    "Exact_Pair_Precedent_Count": np.nan,
+    "Same_Donor_Condition_Count": np.nan,
+    "Same_Acceptor_Condition_Count": np.nan,
+    "Condition_Precedent_Count": np.nan,
+    "Nearest_Evidence_Reaction_ID": "",
+    "Nearest_Donor_Tanimoto": np.nan,
+    "Nearest_Acceptor_Tanimoto": np.nan,
+    "Nearest_Joint_Similarity": np.nan,
+    "Literature_Evidence_Interpretation": INTERPRETATION,
     "Stereoselectivity_Label": STEREO_NOT_EVALUATED,
     "Stereoselectivity_Mean_Beta_Score": np.nan,
     "Stereoselectivity_Seed_Disagreement": False,
@@ -293,16 +298,21 @@ def run_layer2(
         try:
             item, audit = prepare_row(row)
         except Exception as exc:
-            item, audit = None, {"Soft_Score_Error": f"{type(exc).__name__}: {exc}"}
+            item, audit = None, {
+                "Evidence_Retrieval_Error": f"{type(exc).__name__}: {exc}"
+            }
         if item is None:
             output.iat[position, output.columns.get_loc("Final_Status")] = FINAL_INTERNAL_ERROR
             output.iat[position, output.columns.get_loc("Final_Error")] = str(
-                audit.get("Soft_Score_Error", "layer2 preparation failed")
+                audit.get("Evidence_Retrieval_Error", "evidence preparation failed")
             )
             continue
         prepared.append(item)
         scored_positions.append(position)
         prepared_by_position[position] = item
+        output.iat[
+            position, output.columns.get_loc("Evidence_Retrieval_Status")
+        ] = "ok"
 
     if not prepared:
         return [], prepared_by_position, []
@@ -320,11 +330,8 @@ def run_layer2(
         if neighbor_lists[local_pos]:
             nearest = neighbor_lists[local_pos][0]
             output.iat[
-                output_pos, output.columns.get_loc("Nearest_Success_Reaction_ID")
+                output_pos, output.columns.get_loc("Nearest_Evidence_Reaction_ID")
             ] = nearest["reaction_id"]
-            output.iat[
-                output_pos, output.columns.get_loc("Nearest_Success_Similarity")
-            ] = nearest["total_similarity"]
     long_neighbors: list[dict[str, Any]] = []
     for local_pos, output_pos in enumerate(scored_positions):
         sample_id = source.iloc[output_pos].get("Sample_ID", source.iloc[output_pos].get("ID", output_pos))
@@ -526,8 +533,6 @@ def finalize_output(output: pd.DataFrame) -> None:
             warnings.append("layer1_seed_disagreement")
         if bool(row["Stereoselectivity_Seed_Disagreement"]):
             warnings.append("layer3_seed_disagreement")
-        if row["Soft_Domain_Status"] in {"borderline", "out_of_domain"}:
-            warnings.append(f"soft_domain_{row['Soft_Domain_Status']}")
         output.iat[position, output.columns.get_loc("Warnings")] = ";".join(warnings)
 
         status = row["Final_Status"]
@@ -538,7 +543,8 @@ def finalize_output(output: pd.DataFrame) -> None:
             interpretation = "目标 O4 不满足硬结构前提；第二、第三层均已跳过。"
         elif status == FINAL_PREDICTED:
             interpretation = (
-                "已通过硬结构过滤；第二层为文献支持度，第三层为多数投票立体选择性。"
+                "已通过目标 O4 结构门控；第二层为可追溯文献先例，"
+                "第三层为多数投票立体选择性。"
             )
         else:
             interpretation = "流水线内部处理失败；该行结果不可使用。"
@@ -631,7 +637,7 @@ def main() -> int:
                 "layer1_seed_disagreements": int(output["Layer1_Seed_Disagreement"].sum()),
                 "layer3_seed_disagreements": int(output["Stereoselectivity_Seed_Disagreement"].sum()),
                 "output": str(cli.output),
-                "warning": "Beta score and soft compatibility score are not calibrated reaction probabilities.",
+                "warning": "Literature evidence is not a reaction probability; Beta score is not calibrated to reaction success.",
             },
             ensure_ascii=False,
             indent=2,

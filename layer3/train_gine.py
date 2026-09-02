@@ -299,6 +299,10 @@ def main() -> int:
         perm_cat_normalization=args.perm_cat_normalization,
         local_output_mode=args.local_output_mode,
     ).to(device)
+    parameter_count = int(sum(parameter.numel() for parameter in model.parameters()))
+    trainable_parameter_count = int(
+        sum(parameter.numel() for parameter in model.parameters() if parameter.requires_grad)
+    )
     optimizer = make_optimizer(model, args)
     scheduler = make_scheduler(optimizer, args)
 
@@ -388,6 +392,7 @@ def main() -> int:
     result = {
         "model_type": args.model_type,
         "local_output_mode": args.local_output_mode,
+        "use_conditions": True,
         "encoder_type": args.encoder_type,
         "split_column": args.split_column,
         "seed": args.seed,
@@ -404,6 +409,8 @@ def main() -> int:
         "warmup_epochs": args.warmup_epochs,
         "lr_scheduler": args.lr_scheduler,
         "patience": args.patience,
+        "parameter_count": parameter_count,
+        "trainable_parameter_count": trainable_parameter_count,
         "best_epoch": best_epoch,
         "tuned_threshold": best_threshold,
         "n_train": len(train_ds),

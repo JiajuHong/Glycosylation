@@ -1,5 +1,5 @@
 {
-  "pipeline_version": "1.3.1",
+  "pipeline_version": "1.5.0",
   "overall_status": "passed",
   "checks": {
     "three_rows_returned": true,
@@ -10,6 +10,7 @@
     "third_layer_columns_are_beta_scores": true,
     "condition_screening_returns_recommendations": true,
     "condition_screening_uses_target_support_tiers": true,
+    "condition_screening_uses_transparent_evidence": true,
     "condition_screening_preserves_curated_catalyst_records": true,
     "condition_screening_records_recipe_limitation": true
   },
@@ -24,6 +25,6 @@
     "invalid_smiles": "invalid_input"
   },
   "predicted_stereoselectivity": "Alpha",
-  "subprocess_stdout": "{\n  \"rows\": 3,\n  \"status_counts\": {\n    \"predicted\": 1,\n    \"structurally_infeasible\": 1,\n    \"invalid_input\": 1\n  },\n  \"layer1_seed_disagreements\": 0,\n  \"layer3_seed_disagreements\": 0,\n  \"output\": \"/tmp/tmp8pmyb__l/acceptance_predictions.csv\",\n  \"warning\": \"Beta score and soft compatibility score are not calibrated reaction probabilities.\"\n}\n",
-  "condition_screening_stdout": "{\n  \"tasks\": 1,\n  \"candidates_scored\": 48,\n  \"recommendations\": 3,\n  \"tier_counts\": {\n    \"A\": 3\n  },\n  \"preparation\": {\n    \"tasks\": [\n      {\n        \"Task_ID\": \"known_trifluoroacetimidate\",\n        \"Donor_Type\": \"trifluoroacetimidate\",\n        \"Target_Config\": \"Alpha\",\n        \"Task_Mode\": \"standard\",\n        \"Candidate_Count\": 48,\n        \"Original_Condition_Complete\": false,\n        \"Source_Reaction_ID_Provided\": false\n      }\n    ],\n    \"excluded_original_conditions\": 0,\n    \"excluded_by_condition_key\": 0,\n    \"excluded_by_source_reaction\": 0\n  },\n  \"output\": \"/tmp/tmp8pmyb__l/screening_recommendations.csv\",\n  \"all_candidates_output\": null,\n  \"warning\": \"recommendation tiers are screening priorities, not reaction-success probabilities\"\n}\n"
+  "subprocess_stdout": "{\n  \"rows\": 3,\n  \"status_counts\": {\n    \"predicted\": 1,\n    \"structurally_infeasible\": 1,\n    \"invalid_input\": 1\n  },\n  \"layer1_seed_disagreements\": 0,\n  \"layer3_seed_disagreements\": 0,\n  \"output\": \"/tmp/tmphrplsysv/acceptance_predictions.csv\",\n  \"warning\": \"Literature evidence is not a reaction probability; Beta score is not calibrated to reaction success.\"\n}\n",
+  "condition_screening_stdout": "{\n  \"tasks\": 1,\n  \"candidates_scored\": 48,\n  \"recommendations\": 3,\n  \"tier_counts\": {\n    \"A\": 3\n  },\n  \"preparation\": {\n    \"tasks\": [\n      {\n        \"Task_ID\": \"known_trifluoroacetimidate\",\n        \"Donor_Type\": \"trifluoroacetimidate\",\n        \"Target_Config\": \"Alpha\",\n        \"Task_Mode\": \"standard\",\n        \"Candidate_Count\": 48,\n        \"Original_Condition_Complete\": false,\n        \"Source_Reaction_ID_Provided\": false\n      }\n    ],\n    \"excluded_original_conditions\": 0,\n    \"excluded_by_condition_key\": 0,\n    \"excluded_by_source_reaction\": 0\n  },\n  \"output\": \"/tmp/tmphrplsysv/screening_recommendations.csv\",\n  \"all_candidates_output\": null,\n  \"warning\": \"recommendation tiers are screening priorities, not reaction-success probabilities\"\n}\n"
 }

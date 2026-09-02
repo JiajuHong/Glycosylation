@@ -31,6 +31,8 @@ def main() -> int:
     device = torch.device(cli.device)
     checkpoint = torch.load(cli.checkpoint, map_location=device, weights_only=False)
     train_args = checkpoint["args"]
+    if train_args.get("without_conditions", False):
+        raise ValueError("Unconditional checkpoints are retired; use the archived code to reproduce them.")
 
     dataset_kwargs = {
         "csv_path": train_args["csv"],

@@ -35,7 +35,12 @@ class PipelineContractTests(unittest.TestCase):
         self.assertIn("Layer3_Seed0_Beta_Score", output)
         self.assertIn("Stereoselectivity_Mean_Beta_Score", output)
         self.assertNotIn("Alpha_Probability", output)
-        self.assertEqual(output.loc[0, "Soft_Domain_Status"], "not_evaluated")
+        self.assertEqual(output.loc[0, "Pair_History"], "not_evaluated")
+        self.assertEqual(
+            output.loc[0, "Condition_Transfer_Evidence"], "not_evaluated"
+        )
+        self.assertNotIn("Soft_Domain_Status", output)
+        self.assertNotIn("Soft_Compatibility_Score", output)
 
     def test_output_exposes_target_site_resolution_audit(self) -> None:
         output = initialize_output(pd.DataFrame({"ID": [1]}), self.manifest)

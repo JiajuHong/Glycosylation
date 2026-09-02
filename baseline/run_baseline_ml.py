@@ -2,8 +2,12 @@
 
 from __future__ import annotations
 
+import argparse
+import hashlib
+import importlib.metadata
 import json
 import math
+import platform
 from pathlib import Path
 
 import numpy as np
@@ -22,25 +26,29 @@ from sklearn.metrics import (
     precision_recall_curve,
     roc_auc_score,
 )
-from sklearn.preprocessing import OneHotEncoder
 from xgboost import XGBClassifier
 
 
 INPUT_PATH = Path("data/processed/glyco_model_local.csv")
 SOLVENT_VOCAB_PATH = Path("data/processed/solvent_vocab.json")
 CATALYST_VOCAB_PATH = Path("data/processed/catalyst_vocab.json")
-RESULTS_PATH = Path("results/baseline_results.csv")
+DEFAULT_OUTPUT_DIR = Path("results/formal_computational_v1/baselines")
+SPLITS = ("split_pair_group", "split_year", "split_random_stratified")
 
-SPLITS = {
-    "split_random_stratified": "results/baseline_predictions_random.csv",
-    "split_pair_group": "results/baseline_predictions_pair.csv",
-    "split_year": "results/baseline_predictions_year.csv",
-}
-
-FEATURE_SETS = ["structure_condition", "structure_only", "condition_only"]
+FEATURE_SETS = ["structure_condition", "condition_only"]
 FP_BITS = 2048
 FP_RADIUS = 2
+FP_INCLUDE_CHIRALITY = False
 RANDOM_STATE = 42
+
+
+def installed_version(*distribution_names: str) -> str:
+    for name in distribution_names:
+        try:
+            return importlib.metadata.version(name)
+        except importlib.metadata.PackageNotFoundError:
+            continue
+    return "unknown"
 
 
 def parse_id_list(value: object) -> list[int]:
@@ -54,7 +62,11 @@ def load_vocab(path: Path) -> dict[str, int]:
 
 
 def smiles_to_fp_matrix(smiles: pd.Series, n_bits: int = FP_BITS) -> sparse.csr_matrix:
-    generator = rdFingerprintGenerator.GetMorganGenerator(radius=FP_RADIUS, fpSize=n_bits)
+    generator = rdFingerprintGenerator.GetMorganGenerator(
+        radius=FP_RADIUS,
+        fpSize=n_bits,
+        includeChirality=FP_INCLUDE_CHIRALITY,
+    )
     rows: list[sparse.csr_matrix] = []
     for smi in smiles:
         mol = Chem.MolFromSmiles(smi)
@@ -80,11 +92,6 @@ def multi_hot(series: pd.Series, vocab_size: int) -> sparse.csr_matrix:
                 cols.append(token_id)
                 data.append(1.0)
     return sparse.csr_matrix((data, (rows, cols)), shape=(len(series), vocab_size), dtype=np.float32)
-
-
-def donor_type_one_hot(df: pd.DataFrame) -> sparse.csr_matrix:
-    encoder = OneHotEncoder(handle_unknown="ignore", sparse_output=True)
-    return encoder.fit_transform(df[["Donor_Type"]])
 
 
 def train_scaled_numeric(
@@ -127,18 +134,17 @@ def build_feature_blocks(df: pd.DataFrame, split_col: str) -> dict[str, sparse.c
 
     donor_fp = smiles_to_fp_matrix(df["Donor_Canonical_SMILES"])
     acceptor_fp = smiles_to_fp_matrix(df["Acceptor_Canonical_SMILES"])
-    donor_type = donor_type_one_hot(df)
     solvent = multi_hot(df["Solvent_Component_IDs"], max(solvent_vocab.values()) + 1)
     catalyst = multi_hot(df["Catalyst_Component_IDs"], max(catalyst_vocab.values()) + 1)
     numeric = train_scaled_numeric(df, split_col)
 
-    structure = sparse.hstack([donor_fp, acceptor_fp, donor_type], format="csr")
-    condition = sparse.hstack([solvent, catalyst, numeric, donor_type], format="csr")
-    structure_condition = sparse.hstack([donor_fp, acceptor_fp, solvent, catalyst, numeric, donor_type], format="csr")
+    condition = sparse.hstack([solvent, catalyst, numeric], format="csr")
+    structure_condition = sparse.hstack(
+        [donor_fp, acceptor_fp, solvent, catalyst, numeric], format="csr"
+    )
 
     return {
         "structure_condition": structure_condition,
-        "structure_only": structure,
         "condition_only": condition,
     }
 
@@ -149,7 +155,6 @@ def make_models(scale_pos_weight: float) -> dict[str, object]:
             max_iter=3000,
             class_weight="balanced",
             solver="saga",
-            n_jobs=-1,
             random_state=RANDOM_STATE,
         ),
         "random_forest": RandomForestClassifier(
@@ -233,7 +238,9 @@ def run_one_split(df: pd.DataFrame, split_col: str) -> tuple[list[dict[str, obje
                 }
             )
 
-            pred_df = df.iloc[test_idx][["ID", "Reaction_ID", "Label", "Product_Config", "Donor_Type"]].copy()
+            pred_df = df.iloc[test_idx][
+                ["ID", "Reaction_ID", "Label", "Product_Config"]
+            ].copy()
             pred_df["model_name"] = model_name
             pred_df["feature_set"] = feature_set
             pred_df["split_name"] = split_col
@@ -245,11 +252,35 @@ def run_one_split(df: pd.DataFrame, split_col: str) -> tuple[list[dict[str, obje
     return results, pd.concat(pred_frames, ignore_index=True)
 
 
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--input", type=Path, default=INPUT_PATH)
+    parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT_DIR)
+    parser.add_argument(
+        "--splits",
+        nargs="+",
+        choices=SPLITS,
+        default=list(SPLITS),
+    )
+    return parser.parse_args()
+
+
+def sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for block in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(block)
+    return digest.hexdigest()
+
+
 def main() -> None:
-    df = pd.read_csv(INPUT_PATH, encoding="utf-8-sig")
+    args = parse_args()
+    args.output_dir.mkdir(parents=True, exist_ok=True)
+    df = pd.read_csv(args.input, encoding="utf-8-sig")
     all_results: list[dict[str, object]] = []
 
-    for split_col, pred_path in SPLITS.items():
+    for split_col in args.splits:
+        pred_path = args.output_dir / f"predictions_{split_col}.csv"
         print(f"Running {split_col} ...", flush=True)
         split_results, pred_df = run_one_split(df, split_col)
         all_results.extend(split_results)
@@ -257,8 +288,39 @@ def main() -> None:
         print(f"Wrote {pred_path}", flush=True)
 
     results_df = pd.DataFrame(all_results)
-    results_df.to_csv(RESULTS_PATH, index=False, encoding="utf-8-sig")
-    print(f"Wrote {RESULTS_PATH}")
+    results_path = args.output_dir / "baseline_results.csv"
+    results_df.to_csv(results_path, index=False, encoding="utf-8-sig")
+    metadata = {
+        "input": {
+            "path": str(args.input),
+            "sha256": sha256(args.input),
+            "rows": len(df),
+        },
+        "source": {
+            "path": str(Path(__file__)),
+            "sha256": sha256(Path(__file__)),
+        },
+        "splits": args.splits,
+        "fingerprint": (
+            f"Morgan radius {FP_RADIUS}, {FP_BITS} bits, "
+            f"includeChirality={FP_INCLUDE_CHIRALITY}"
+        ),
+        "feature_sets": FEATURE_SETS,
+        "random_state": RANDOM_STATE,
+        "environment": {
+            "python": platform.python_version(),
+            "numpy": importlib.metadata.version("numpy"),
+            "pandas": importlib.metadata.version("pandas"),
+            "rdkit": importlib.metadata.version("rdkit"),
+            "scikit_learn": importlib.metadata.version("scikit-learn"),
+            "xgboost": installed_version("xgboost-cpu", "xgboost"),
+        },
+    }
+    (args.output_dir / "baseline_metadata.json").write_text(
+        json.dumps(metadata, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    print(f"Wrote {results_path}")
     print(
         results_df.sort_values(["split_name", "feature_set", "model_name"])[
             [

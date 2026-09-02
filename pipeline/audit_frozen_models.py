@@ -138,25 +138,27 @@ def audit_layer1(manifest: dict[str, Any], root: Path, device: torch.device) -> 
 
 
 def audit_layer2(manifest: dict[str, Any], root: Path) -> dict[str, Any]:
-    """核对冻结的第二层方法边界和既有五池评测结论。"""
+    """核对第二层只保留透明文献证据，不再声明适用域。"""
     config = manifest["layer2"]
-    audit_path = resolve_artifact(root, config["audit"])
-    audit = json.loads(audit_path.read_text(encoding="utf-8"))
+    reference = pd.read_csv(resolve_artifact(root, config["positive_reference"]))
     checks = {
-        "u_pool_qa_pass": bool(audit["u_generation"]["qa"]["overall_pass"]),
-        "weights_match": audit["features"]["weights"] == config["weights"],
-        "not_called_probability": "not a calibrated reaction probability"
-        in audit["probability_warning"],
+        "transparent_method": config["method"]
+        == "transparent_condition_transfer_evidence_v3",
+        "no_aggregate_weights": "weights" not in config,
+        "no_domain_audit": "audit" not in config,
+        "reference_has_traceability": {
+            "Reaction_ID", "Full_Reaction_SHA256", "Donor_Canonical_SMILES",
+            "Acceptor_Canonical_SMILES"
+        }.issubset(reference.columns),
         "not_a_hard_gate": config.get("hard_gate") is False,
-        "five_u_pools": int(audit["u_generation"]["pool_count"]) == 5,
     }
     return {
         "method": config["method"],
         "checks": checks,
         "overall_status": "passed" if all(checks.values()) else "failed",
-        "test_summary": audit["validation_summary"]["test"],
-        "pool_stability": audit["validation_summary"]["test_pool_stability"],
-        "interpretation": "literature support/applicability domain; not reaction probability",
+        "reference_rows": len(reference),
+        "unique_full_reactions": int(reference["Full_Reaction_SHA256"].nunique()),
+        "interpretation": "traceable literature precedent only; no domain or probability claim",
     }
 
 
@@ -292,8 +294,8 @@ def audit_condition_screening(manifest: dict[str, Any], root: Path) -> dict[str,
         ),
         "unanimous_vote_policy_recorded": (
             "A requires 3/3" in config["ranking"]
-            and "B requires 3/3" in config["ranking"]
-            and "2/3 disagreement" in config["ranking"]
+            and "2/3 is exploratory" in config["ranking"]
+            and "literature precedent" in config["ranking"]
         ),
         "exploratory_rescue_policy_recorded": (
             "exploratory_rescue" in config["rescue_policy"]

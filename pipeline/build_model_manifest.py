@@ -63,7 +63,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=Path("."))
     parser.add_argument("--output", type=Path, default=Path("artifacts/model_manifest_v2.json"))
-    parser.add_argument("--pipeline-version", default="1.3.1")
+    parser.add_argument("--pipeline-version", default="1.5.0")
     parser.add_argument(
         "--source-git-commit",
         help=(
@@ -144,9 +144,8 @@ def main() -> int:
         Path("layer1/predict_hard_feasibility.py"),
         Path("layer1/train_hard_feasibility.py"),
         *sorted(Path("layer1/tests").glob("test_*.py")),
-        Path("layer2/score_soft_compatibility.py"),
-        Path("layer2/build_soft_compatibility_u.py"),
-        Path("layer2/evaluate_soft_compatibility.py"),
+        Path("layer2/retrieve_literature_evidence.py"),
+        *sorted(Path("layer2/tests").glob("test_*.py")),
         Path("layer3/glyco_dataset.py"),
         Path("layer3/chiral_graph.py"),
         Path("layer3/extract_donor_rfu.py"),
@@ -163,15 +162,17 @@ def main() -> int:
         # 清单位于 artifacts/，因此根目录相对清单为上一级。
         "project_root": "..",
         "task_definition": {
-            "layer1": "硬结构可行性模型：判断目标 O4 是否满足必要结构条件",
-            "layer2": "成功文献反应域内的软兼容性/文献支持度排序",
+            "layer1": "目标 O4 结构门控：判断目标位点是否满足必要结构条件",
+            "layer2": "可追溯的成功文献先例检索；不定义适用域或成功概率",
             "layer3": "在反应发生前提下的Alpha/Beta立体选择性分类",
         },
         "label_mapping": {"0": "Alpha", "1": "Beta"},
         "score_semantics": {
             "layer1_class1": "structurally feasible score",
-            "layer2": "similarity-based literature support score; not reaction probability",
-            "layer2_percentile_scale": "0-100",
+            "layer2": (
+                "identity counts and raw donor/acceptor Tanimoto similarities; "
+                "no aggregate compatibility score or applicability-domain label"
+            ),
             "layer3_class1": "Beta softmax score; not a calibrated probability",
         },
         "layer1": {
@@ -202,17 +203,26 @@ def main() -> int:
             "graph_cache": artifact(root, Path("data/processed/hard_feasibility_chiral_graph_cache.pt")),
         },
         "layer2": {
-            "method": "weighted_knn_applicability_domain_v1_2",
-            "weights": {"donor": 0.4, "acceptor": 0.4, "context": 0.2},
+            "method": "transparent_condition_transfer_evidence_v3",
             "reference_split": "all",
+            "fingerprint": "Morgan radius 2, 2048 bits, chirality-aware Tanimoto",
+            "joint_similarity": "minimum(donor_tanimoto, acceptor_tanimoto)",
+            "pair_history_types": ["known_pair", "novel_pair"],
+            "condition_transfer_evidence_types": [
+                "exact_pair_exact_condition",
+                "same_donor_condition",
+                "same_acceptor_condition",
+                "analog_condition",
+                "template_only",
+            ],
             "positive_reference": artifact(
                 root, Path("data/processed/soft_compatibility_positive_1561.csv")
             ),
-            "unlabeled_evaluation_pools": artifact(
-                root, Path("data/processed/soft_compatibility_u_candidates.csv")
-            ),
-            "audit": artifact(root, Path("results/soft_compatibility_knn_audit.json")),
             "hard_gate": False,
+            "scope_limitation": (
+                "separates donor-acceptor pair history from evidence for transferring the "
+                "current condition; pair history is descriptive and excluded from ranking"
+            ),
         },
         "layer3": {
             "checkpoints": layer3_entries,
@@ -243,9 +253,10 @@ def main() -> int:
                     "in the template supporting reactions"
                 ),
                 "ranking": (
-                    "Alpha/Beta: A requires 3/3 target votes in-domain; B requires 3/3 "
-                    "target votes at the domain boundary; 2/3 disagreement or out-of-domain "
-                    "is exploratory; Any: domain and soft-support retrieval without stereo ranking"
+                    "Alpha/Beta: A requires 3/3 target votes; 2/3 is exploratory; at most "
+                    "1/3 is not recommended. Within a vote tier, rank transparent literature "
+                    "precedent before joint structure similarity and template support. Any: "
+                    "literature-evidence retrieval without stereo ranking"
                 ),
                 "rescue_policy": (
                     "Task_Mode=exploratory_rescue is always labelled exploratory rescue; "
@@ -263,7 +274,7 @@ def main() -> int:
         "execution_policy": {
             "layer1_reject_skips_layer2": True,
             "layer1_reject_skips_layer3": True,
-            "domain_status_is_not_final_status": True,
+            "literature_evidence_is_not_model_confidence": True,
             "seed_disagreement_is_reported_separately": True,
         },
         "environment": {

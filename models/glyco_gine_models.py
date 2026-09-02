@@ -88,17 +88,15 @@ class GlycoGINEBase(nn.Module):
         t_acceptor = self.global_pool(
             h_acceptor, batch["acceptor_graph"].batch, node_mask=acceptor_heavy_mask
         )
-        t_solv, t_cat, t_temp, t_time = self.condition_encoder(batch)
-        return {
+        enc = {
             "h_donor": h_donor,
             "h_acceptor": h_acceptor,
             "t_donor": t_donor,
             "t_acceptor": t_acceptor,
-            "t_solv": t_solv,
-            "t_cat": t_cat,
-            "t_temp": t_temp,
-            "t_time": t_time,
         }
+        tokens = self.condition_encoder(batch)
+        enc.update(zip(("t_solv", "t_cat", "t_temp", "t_time"), tokens))
+        return enc
 
 
 class GlycoGINEGlobal(GlycoGINEBase):
@@ -210,7 +208,10 @@ class GlycoGINECrossAttnTri(GlycoGINELocal):
                 f"Unknown local_output_mode {local_output_mode!r}; "
                 f"choose from {LOCAL_OUTPUT_MODES}"
             )
-        super().__init__(*args, hidden_dim=hidden_dim, dropout=dropout, **kwargs)
+        super().__init__(
+            *args, hidden_dim=hidden_dim, dropout=dropout,
+            **kwargs
+        )
         self.local_output_mode = local_output_mode
         self.local_interaction = RFUOHCrossAttentionTri(
             hidden_dim,
@@ -255,10 +256,7 @@ class GlycoGINECrossAttnTri(GlycoGINELocal):
                 enc["t_donor"],
                 enc["t_acceptor"],
                 *self._select_local_tokens(interaction),
-                enc["t_solv"],
-                enc["t_cat"],
-                enc["t_temp"],
-                enc["t_time"],
+                *[enc[k] for k in ("t_solv", "t_cat", "t_temp", "t_time")],
             ],
             dim=-1,
         )

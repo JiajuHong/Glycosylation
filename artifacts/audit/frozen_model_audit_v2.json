@@ -1,10 +1,10 @@
 {
-  "pipeline_version": "1.3.1",
+  "pipeline_version": "1.5.0",
   "manifest": "artifacts/model_manifest_v2.json",
-  "device": "cuda",
+  "device": "cuda:0",
   "hash_check": {
     "status": "passed",
-    "artifact_count": 65
+    "artifact_count": 62
   },
   "layer1": [
     {
@@ -46,7 +46,7 @@
           "n": 21,
           "expected_label": 1,
           "accuracy": 1.0,
-          "mean_probability_feasible": 0.9881491263707479,
+          "mean_probability_feasible": 0.9881491320473808,
           "min_probability_feasible": 0.9878363013267517,
           "max_probability_feasible": 0.9888139367103577
         },
@@ -54,7 +54,7 @@
           "n": 202,
           "expected_label": 0,
           "accuracy": 1.0,
-          "mean_probability_feasible": 0.011650819174650282,
+          "mean_probability_feasible": 0.011650818999450986,
           "min_probability_feasible": 0.010811264626681805,
           "max_probability_feasible": 0.012092864140868187
         },
@@ -62,7 +62,7 @@
           "n": 202,
           "expected_label": 0,
           "accuracy": 1.0,
-          "mean_probability_feasible": 0.011622401327816861,
+          "mean_probability_feasible": 0.011622400631630185,
           "min_probability_feasible": 0.010714338161051273,
           "max_probability_feasible": 0.012128416448831558
         },
@@ -70,8 +70,8 @@
           "n": 202,
           "expected_label": 0,
           "accuracy": 1.0,
-          "mean_probability_feasible": 0.011837934060852127,
-          "min_probability_feasible": 0.010965925641357899,
+          "mean_probability_feasible": 0.011837934088515172,
+          "min_probability_feasible": 0.010965936817228794,
           "max_probability_feasible": 0.012330194935202599
         }
       },
@@ -129,15 +129,15 @@
           "n": 202,
           "expected_label": 0,
           "accuracy": 1.0,
-          "mean_probability_feasible": 0.010599125891296876,
-          "min_probability_feasible": 0.00984911248087883,
+          "mean_probability_feasible": 0.010599125997338555,
+          "min_probability_feasible": 0.009849107824265957,
           "max_probability_feasible": 0.011130014434456825
         },
         "o4_methyl": {
           "n": 202,
           "expected_label": 0,
           "accuracy": 1.0,
-          "mean_probability_feasible": 0.014448991174450015,
+          "mean_probability_feasible": 0.014448991446469975,
           "min_probability_feasible": 0.01092922780662775,
           "max_probability_feasible": 0.016932904720306396
         },
@@ -145,8 +145,8 @@
           "n": 202,
           "expected_label": 0,
           "accuracy": 1.0,
-          "mean_probability_feasible": 0.0107801073820948,
-          "min_probability_feasible": 0.009960037656128407,
+          "mean_probability_feasible": 0.010780107299105661,
+          "min_probability_feasible": 0.00996004231274128,
           "max_probability_feasible": 0.011348498053848743
         }
       },
@@ -196,7 +196,7 @@
           "n": 21,
           "expected_label": 1,
           "accuracy": 1.0,
-          "mean_probability_feasible": 0.9877343745458693,
+          "mean_probability_feasible": 0.9877343688692365,
           "min_probability_feasible": 0.9873864054679871,
           "max_probability_feasible": 0.9884374737739563
         },
@@ -204,25 +204,25 @@
           "n": 202,
           "expected_label": 0,
           "accuracy": 1.0,
-          "mean_probability_feasible": 0.013221076638944963,
-          "min_probability_feasible": 0.012772216461598873,
+          "mean_probability_feasible": 0.013221076279325356,
+          "min_probability_feasible": 0.012772210873663425,
           "max_probability_feasible": 0.013466223143041134
         },
         "o4_methyl": {
           "n": 202,
           "expected_label": 0,
           "accuracy": 1.0,
-          "mean_probability_feasible": 0.013304205717389831,
-          "min_probability_feasible": 0.01282466109842062,
-          "max_probability_feasible": 0.013566908426582813
+          "mean_probability_feasible": 0.013304206270650766,
+          "min_probability_feasible": 0.012824654579162598,
+          "max_probability_feasible": 0.013566914945840836
         },
         "o4_trimethylsilyl": {
           "n": 202,
           "expected_label": 0,
           "accuracy": 1.0,
-          "mean_probability_feasible": 0.013374596350079421,
+          "mean_probability_feasible": 0.013374596778856645,
           "min_probability_feasible": 0.012888142839074135,
-          "max_probability_feasible": 0.013641223311424255
+          "max_probability_feasible": 0.013641229830682278
         }
       },
       "batch_size_max_abs_difference": 1.1920928955078125e-07,
@@ -234,52 +234,18 @@
     }
   ],
   "layer2": {
-    "method": "weighted_knn_applicability_domain_v1_2",
+    "method": "transparent_condition_transfer_evidence_v3",
     "checks": {
-      "u_pool_qa_pass": true,
-      "weights_match": true,
-      "not_called_probability": true,
-      "not_a_hard_gate": true,
-      "five_u_pools": true
+      "transparent_method": true,
+      "no_aggregate_weights": true,
+      "no_domain_audit": true,
+      "reference_has_traceability": true,
+      "not_a_hard_gate": true
     },
     "overall_status": "passed",
-    "test_summary": {
-      "recall_at_5pct": {
-        "mean": 0.5487394957983194,
-        "std": 0.009672995322034755,
-        "min": 0.5378151260504201,
-        "max": 0.5630252100840336
-      },
-      "recall_at_10pct": {
-        "mean": 0.6647058823529411,
-        "std": 0.0035153782627482043,
-        "min": 0.6596638655462185,
-        "max": 0.6680672268907563
-      },
-      "recall_at_20pct": {
-        "mean": 0.7857142857142857,
-        "std": 0.0,
-        "min": 0.7857142857142857,
-        "max": 0.7857142857142857
-      },
-      "recall_at_n_positive": {
-        "mean": 0.5957983193277311,
-        "std": 0.0046027105672702875,
-        "min": 0.592436974789916,
-        "max": 0.6008403361344538
-      },
-      "mean_positive_percentile": {
-        "mean": 0.841583836056093,
-        "std": 0.0012439839219724538,
-        "min": 0.8405381064955532,
-        "max": 0.8437001278052592
-      }
-    },
-    "pool_stability": {
-      "positive_rank_spearman_mean": 1.0,
-      "positive_rank_spearman_min": 1.0
-    },
-    "interpretation": "literature support/applicability domain; not reaction probability"
+    "reference_rows": 1561,
+    "unique_full_reactions": 1441,
+    "interpretation": "traceable literature precedent only; no domain or probability claim"
   },
   "layer3": [
     {
@@ -295,12 +261,12 @@
           "balanced_accuracy": 0.9354470466931801,
           "macro_f1": 0.9303613053613053,
           "confusion_matrix": "[[88, 5], [11, 135]]",
-          "auroc": 0.9740020621593756,
-          "auprc": 0.975877735669678
+          "auroc": 0.9740020621593755,
+          "auprc": 0.9758777356696782
         },
-        "batch_size_max_abs_difference": 3.5762786865234375e-07,
+        "batch_size_max_abs_difference": 5.364418029785156e-07,
         "deterministic_batch_check": true,
-        "repeat_max_abs_difference": 3.5762786865234375e-07,
+        "repeat_max_abs_difference": 2.384185791015625e-07,
         "repeat_class_match": true,
         "repeat_check": true,
         "reproduced_validation_threshold": 0.8049999999999999,
@@ -314,11 +280,11 @@
           "macro_f1": 0.9350472135800447,
           "confusion_matrix": "[[91, 5], [10, 132]]",
           "auroc": 0.9794600938967136,
-          "auprc": 0.9794540105943172
+          "auprc": 0.979457383170262
         },
-        "batch_size_max_abs_difference": 3.5762786865234375e-07,
+        "batch_size_max_abs_difference": 2.086162567138672e-07,
         "deterministic_batch_check": true,
-        "repeat_max_abs_difference": 1.7881393432617188e-07,
+        "repeat_max_abs_difference": 2.086162567138672e-07,
         "repeat_class_match": true,
         "repeat_check": true,
         "reproduced_validation_threshold": null,
@@ -339,11 +305,11 @@
           "macro_f1": 0.9310245310245311,
           "confusion_matrix": "[[91, 2], [14, 132]]",
           "auroc": 0.9809986743261158,
-          "auprc": 0.9799728443077885
+          "auprc": 0.9799749561212733
         },
-        "batch_size_max_abs_difference": 5.066394805908203e-07,
+        "batch_size_max_abs_difference": 4.172325134277344e-07,
         "deterministic_batch_check": true,
-        "repeat_max_abs_difference": 2.086162567138672e-07,
+        "repeat_max_abs_difference": 2.980232238769531e-07,
         "repeat_class_match": true,
         "repeat_check": true,
         "reproduced_validation_threshold": 0.8599999999999999,
@@ -361,7 +327,7 @@
         },
         "batch_size_max_abs_difference": 2.980232238769531e-07,
         "deterministic_batch_check": true,
-        "repeat_max_abs_difference": 2.384185791015625e-07,
+        "repeat_max_abs_difference": 2.086162567138672e-07,
         "repeat_class_match": true,
         "repeat_check": true,
         "reproduced_validation_threshold": null,
@@ -381,12 +347,12 @@
           "balanced_accuracy": 0.9471939902783915,
           "macro_f1": 0.9471939902783915,
           "confusion_matrix": "[[87, 6], [6, 140]]",
-          "auroc": 0.9851229930770363,
-          "auprc": 0.9913684905450637
+          "auroc": 0.9851229930770364,
+          "auprc": 0.991368490545064
         },
-        "batch_size_max_abs_difference": 4.172325134277344e-07,
+        "batch_size_max_abs_difference": 3.8743019104003906e-07,
         "deterministic_batch_check": true,
-        "repeat_max_abs_difference": 2.682209014892578e-07,
+        "repeat_max_abs_difference": 2.086162567138672e-07,
         "repeat_class_match": true,
         "repeat_check": true,
         "reproduced_validation_threshold": 0.5549999999999999,
@@ -400,11 +366,11 @@
           "macro_f1": 0.947442031652558,
           "confusion_matrix": "[[89, 7], [5, 137]]",
           "auroc": 0.9639818075117371,
-          "auprc": 0.9488954565461862
+          "auprc": 0.948886091847355
         },
-        "batch_size_max_abs_difference": 3.2782554626464844e-07,
+        "batch_size_max_abs_difference": 1.9371509552001953e-07,
         "deterministic_batch_check": true,
-        "repeat_max_abs_difference": 1.7881393432617188e-07,
+        "repeat_max_abs_difference": 1.1920928955078125e-07,
         "repeat_class_match": true,
         "repeat_check": true,
         "reproduced_validation_threshold": null,
