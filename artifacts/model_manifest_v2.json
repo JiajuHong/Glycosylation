@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "pipeline_version": "1.5.0",
-  "created_utc": "2026-09-02T08:19:08.584911+00:00",
+  "created_utc": "2026-09-02T09:22:18.899749+00:00",
   "project_root": "..",
   "task_definition": {
     "layer1": "目标 O4 结构门控：判断目标位点是否满足必要结构条件",
@@ -265,12 +265,12 @@
     },
     "files": [
       {
-        "path": "pipeline/build_model_manifest.py",
-        "sha256": "cf5636d69534a69a476a765915e3d096e52b79740bffc0729dcc4b9654f3074c",
-        "size_bytes": 13174
+        "path": "support/maintenance/build_model_manifest.py",
+        "sha256": "ede1fef7a355b4eaf864037bcd28c4f7bedc82adaa41e2c4f421a7271b7d0805",
+        "size_bytes": 13207
       },
       {
-        "path": "pipeline/audit_frozen_models.py",
+        "path": "support/maintenance/audit_frozen_models.py",
         "sha256": "2f23267cb3b61c57b62aae514472a8ed1580ca5aafdb0815801dc5c37fe59bc9",
         "size_bytes": 16020
       },
@@ -285,7 +285,7 @@
         "size_bytes": 27461
       },
       {
-        "path": "pipeline/run_e2e_acceptance.py",
+        "path": "support/maintenance/run_e2e_acceptance.py",
         "sha256": "5a73e4c5f2cfdbb1eb2a1ceaaf1650d3ecd10020f1c62a1e40337465cbdeb35e",
         "size_bytes": 7916
       },

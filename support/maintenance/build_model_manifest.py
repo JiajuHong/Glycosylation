@@ -133,11 +133,11 @@ def main() -> int:
     generation_status = git_value(root, "status", "--porcelain")
     source_git_commit = cli.source_git_commit or generation_git_commit
     source_paths = [
-        Path("pipeline/build_model_manifest.py"),
-        Path("pipeline/audit_frozen_models.py"),
+        Path("support/maintenance/build_model_manifest.py"),
+        Path("support/maintenance/audit_frozen_models.py"),
         Path("pipeline/build_condition_library.py"),
         Path("pipeline/predict_three_layer.py"),
-        Path("pipeline/run_e2e_acceptance.py"),
+        Path("support/maintenance/run_e2e_acceptance.py"),
         Path("pipeline/screen_conditions.py"),
         Path("pipeline/status.py"),
         *sorted(Path("pipeline/tests").glob("test_*.py")),

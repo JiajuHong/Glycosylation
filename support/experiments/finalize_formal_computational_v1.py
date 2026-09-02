@@ -21,7 +21,7 @@ from sklearn.metrics import (
     roc_auc_score,
 )
 
-from experiments.run_formal_computational_v1 import CONFIGS, EXPERIMENT_ID, SEEDS
+from support.experiments.run_formal_computational_v1 import CONFIGS, EXPERIMENT_ID, SEEDS
 
 
 METRICS = (

@@ -1,4 +1,6 @@
-# 代码目录与运行约定
+# 详细代码目录与运行约定
+
+日常使用先看根目录 `README.md`。本文件是补充说明，以下路径均相对项目根目录。
 
 项目代码按职责拆分为以下 Python 包：
 
@@ -8,9 +10,11 @@ layer1/    目标 O4 结构门控：构造、训练、推理与测试
 layer2/    可追溯的成功文献先例检索
 layer3/    α/β 立体选择性：预处理、图构造、训练与测试
 baseline/  传统机器学习基线与结果汇总
-experiments/ 正式计算实验的固定矩阵、可恢复运行器、结果汇总与实验协议
+support/experiments/ 正式计算实验、结果汇总与实验协议（非日常入口）
+support/maintenance/ 模型清单、审计、验收与历史维护工具
+support/docs/ 详细实现说明
 models/    第一层和第三层复用的神经网络组件
-pipeline/  冻结模型清单、六 checkpoint 审计与三层统一推理
+pipeline/  三层统一推理、条件筛选、条件库和状态定义
 artifacts/ 冻结 checkpoint、指标、manifest 与验收报告
 logs/      正式训练运行日志（按实验版本集中保存，不放在项目根目录）
 results/   正式任务、基线、预测导出、消融和误差分析结果
@@ -25,16 +29,16 @@ python -m layer1.predict_hard_feasibility --help
 python -m layer2.retrieve_literature_evidence --help
 python -m layer3.train_gine --help
 python -m baseline.run_baseline_ml
-python -m experiments.run_formal_computational_v1 --help
-python -m experiments.finalize_formal_computational_v1 --help
-python -m pipeline.build_model_manifest --help
-python -m pipeline.audit_frozen_models --help
+python -m support.experiments.run_formal_computational_v1 --help
+python -m support.experiments.finalize_formal_computational_v1 --help
+python -m support.maintenance.build_model_manifest --help
+python -m support.maintenance.audit_frozen_models --help
 python -m pipeline.predict_three_layer --help
 ```
 
 第三层的正式计算实验协议、固定矩阵、运行方式和输出布局见
-`experiments/FORMAL_COMPUTATIONAL_V1.md`，已完成结果与结论见
-`experiments/FORMAL_COMPUTATIONAL_V1_WORK_SUMMARY.md`。正式运行的中间文件不得散落到项目根目录；
+`support/experiments/FORMAL_COMPUTATIONAL_V1.md`，已完成结果与结论见
+`support/experiments/FORMAL_COMPUTATIONAL_V1_WORK_SUMMARY.md`。正式运行的中间文件不得散落到项目根目录；
 模型检查点和逐轮历史放在 `artifacts/checkpoints/formal_computational_v1/`，单次指标放在
 `artifacts/metrics/formal_computational_v1/`，最终汇总放在
 `results/formal_computational_v1/`。

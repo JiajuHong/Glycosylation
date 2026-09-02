@@ -12,7 +12,7 @@ def main():
     output.mkdir(parents=True, exist_ok=True)
     extensions = {".py", ".md", ".yml", ".yaml", ".sh"}
     paths = {p for p in root.iterdir() if p.is_file() and p.suffix in extensions}
-    for directory in ("models", "layer1", "layer2", "layer3", "pipeline", "baseline", "common", "experiments"):
+    for directory in ("models", "layer1", "layer2", "layer3", "pipeline", "baseline", "common", "support"):
         paths.update(p for p in (root / directory).rglob("*")
                      if p.is_file() and p.suffix in extensions and "__pycache__" not in p.parts)
     paths.add(root / "artifacts/model_manifest_v2.json")

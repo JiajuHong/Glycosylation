@@ -1,6 +1,6 @@
 # 正式计算实验 V1 工作总结
 
-2026-09-02 收尾补充见 `experiments/CLOSEOUT_2026_09_02.md`。
+2026-09-02 收尾补充见 `support/experiments/CLOSEOUT_2026_09_02.md`。
 原24次深度实验、27组传统基线及新增3种子去条件消融均已完成。
 后续按任务范围移除现用无条件版本：当前传统基线保留18组含条件结果。
 原27组基线及去条件消融保留为历史证据，见收尾记录及
@@ -148,9 +148,9 @@ global/local/cross-attention 对照已经足够说明模块作用，不需要继
 
 ## 9. 文件与复现记录
 
-- 实验协议：`experiments/FORMAL_COMPUTATIONAL_V1.md`
-- 可恢复运行器：`experiments/run_formal_computational_v1.py`
-- 汇总程序：`experiments/finalize_formal_computational_v1.py`
+- 实验协议：`support/experiments/FORMAL_COMPUTATIONAL_V1.md`
+- 可恢复运行器：`support/experiments/run_formal_computational_v1.py`
+- 汇总程序：`support/experiments/finalize_formal_computational_v1.py`
 - 运行清单与环境：`artifacts/metrics/formal_computational_v1/run_manifest.json`
 - 完成状态：`artifacts/metrics/formal_computational_v1/run_state.json`
 - 单次指标：`artifacts/metrics/formal_computational_v1/<config>/seed*.csv`

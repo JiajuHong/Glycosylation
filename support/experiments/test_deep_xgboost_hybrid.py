@@ -21,7 +21,7 @@ from torch.utils.data import DataLoader
 from xgboost import XGBClassifier
 
 from baseline.run_baseline_ml import FP_BITS, FP_INCLUDE_CHIRALITY, build_feature_blocks
-from experiments.test_deep_xgboost_head import (
+from support.experiments.test_deep_xgboost_head import (
     DEFAULT_CHECKPOINTS,
     best_threshold,
     collect_embeddings,

@@ -2,7 +2,7 @@
 
 The completed results, interpretation boundaries, validation status, and recommended
 prospective wet-lab validation are recorded in
-`experiments/FORMAL_COMPUTATIONAL_V1_WORK_SUMMARY.md`.
+`support/experiments/FORMAL_COMPUTATIONAL_V1_WORK_SUMMARY.md`.
 
 ## Scope
 
@@ -90,9 +90,9 @@ the completed evidence. The deep runner resumes the original 24-run matrix.
 python -m baseline.run_baseline_ml \
   --output-dir results/formal_computational_v1/baselines
 
-python -m experiments.run_formal_computational_v1 --gpus 0 1
+python -m support.experiments.run_formal_computational_v1 --gpus 0 1
 
-python -m experiments.finalize_formal_computational_v1 --device cuda:0
+python -m support.experiments.finalize_formal_computational_v1 --device cuda:0
 ```
 
 The runner is resumable. A run is skipped only when its one-row metric artifact and
