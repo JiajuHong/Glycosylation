@@ -1,0 +1,21 @@
+{
+  "method": "cluster bootstrap by Pair_Key",
+  "repetitions_requested": 2000,
+  "metrics": {
+    "accuracy": {
+      "lower_95": 0.892853310852238,
+      "upper_95": 0.9699570815450643,
+      "valid_repetitions": 2000
+    },
+    "balanced_accuracy": {
+      "lower_95": 0.8930961148748241,
+      "upper_95": 0.9681540318588765,
+      "valid_repetitions": 2000
+    },
+    "macro_f1": {
+      "lower_95": 0.8883651463685511,
+      "upper_95": 0.968166407396683,
+      "valid_repetitions": 2000
+    }
+  }
+}

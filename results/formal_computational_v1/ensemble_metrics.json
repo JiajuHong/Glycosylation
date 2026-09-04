@@ -1,0 +1,170 @@
+{
+  "pair_chiral_global": {
+    "n": 238,
+    "accuracy": 0.9411764705882353,
+    "balanced_accuracy": 0.938893779342723,
+    "macro_f1": 0.938893779342723,
+    "auroc_mean_score": 0.9657423708920188,
+    "confusion_matrix": [
+      [
+        89,
+        7
+      ],
+      [
+        7,
+        135
+      ]
+    ],
+    "seed_disagreement_count": 27,
+    "seed_disagreement_rate": 0.1134453781512605,
+    "unanimous_accuracy": 0.966824644549763,
+    "disagreement_accuracy": 0.7407407407407407
+  },
+  "pair_chiral_local": {
+    "n": 238,
+    "accuracy": 0.9369747899159664,
+    "balanced_accuracy": 0.9303110328638498,
+    "macro_f1": 0.9339414910349166,
+    "auroc_mean_score": 0.9818808685446009,
+    "confusion_matrix": [
+      [
+        86,
+        10
+      ],
+      [
+        5,
+        137
+      ]
+    ],
+    "seed_disagreement_count": 19,
+    "seed_disagreement_rate": 0.07983193277310924,
+    "unanimous_accuracy": 0.9680365296803652,
+    "disagreement_accuracy": 0.5789473684210527
+  },
+  "pair_chiral_crossattn": {
+    "n": 238,
+    "accuracy": 0.9285714285714286,
+    "balanced_accuracy": 0.923268779342723,
+    "macro_f1": 0.9254097302877791,
+    "auroc_mean_score": 0.9785798122065728,
+    "confusion_matrix": [
+      [
+        86,
+        10
+      ],
+      [
+        7,
+        135
+      ]
+    ],
+    "seed_disagreement_count": 16,
+    "seed_disagreement_rate": 0.06722689075630252,
+    "unanimous_accuracy": 0.9504504504504504,
+    "disagreement_accuracy": 0.625
+  },
+  "pair_chiral_tri_l1": {
+    "n": 238,
+    "accuracy": 0.9327731092436975,
+    "balanced_accuracy": 0.9284771126760563,
+    "macro_f1": 0.9299227088700772,
+    "auroc_mean_score": 0.9771860328638498,
+    "confusion_matrix": [
+      [
+        87,
+        9
+      ],
+      [
+        7,
+        135
+      ]
+    ],
+    "seed_disagreement_count": 18,
+    "seed_disagreement_rate": 0.07563025210084033,
+    "unanimous_accuracy": 0.9454545454545454,
+    "disagreement_accuracy": 0.7777777777777778
+  },
+  "pair_chiral_tri_l2": {
+    "n": 238,
+    "accuracy": 0.9327731092436975,
+    "balanced_accuracy": 0.9267899061032864,
+    "macro_f1": 0.9296690307328606,
+    "auroc_mean_score": 0.9660357981220656,
+    "confusion_matrix": [
+      [
+        86,
+        10
+      ],
+      [
+        6,
+        136
+      ]
+    ],
+    "seed_disagreement_count": 20,
+    "seed_disagreement_rate": 0.08403361344537816,
+    "unanimous_accuracy": 0.9495412844036697,
+    "disagreement_accuracy": 0.75
+  },
+  "pair_chiral_tri_l3": {
+    "n": 238,
+    "accuracy": 0.9369747899159664,
+    "balanced_accuracy": 0.9353726525821596,
+    "macro_f1": 0.9346381295886046,
+    "auroc_mean_score": 0.9764524647887324,
+    "confusion_matrix": [
+      [
+        89,
+        7
+      ],
+      [
+        8,
+        134
+      ]
+    ],
+    "seed_disagreement_count": 13,
+    "seed_disagreement_rate": 0.0546218487394958,
+    "unanimous_accuracy": 0.9688888888888889,
+    "disagreement_accuracy": 0.38461538461538464
+  },
+  "pair_gine_tri_l3_fair": {
+    "n": 238,
+    "accuracy": 0.907563025210084,
+    "balanced_accuracy": 0.9022887323943662,
+    "macro_f1": 0.9036437246963562,
+    "auroc_mean_score": 0.9556191314553991,
+    "confusion_matrix": [
+      [
+        84,
+        12
+      ],
+      [
+        10,
+        132
+      ]
+    ],
+    "seed_disagreement_count": 21,
+    "seed_disagreement_rate": 0.08823529411764706,
+    "unanimous_accuracy": 0.9354838709677419,
+    "disagreement_accuracy": 0.6190476190476191
+  },
+  "year_chiral_tri_l3": {
+    "n": 281,
+    "accuracy": 0.8078291814946619,
+    "balanced_accuracy": 0.8112971823498139,
+    "macro_f1": 0.8027711344494125,
+    "auroc_mean_score": 0.8516746411483253,
+    "confusion_matrix": [
+      [
+        91,
+        19
+      ],
+      [
+        35,
+        136
+      ]
+    ],
+    "seed_disagreement_count": 45,
+    "seed_disagreement_rate": 0.1601423487544484,
+    "unanimous_accuracy": 0.847457627118644,
+    "disagreement_accuracy": 0.6
+  }
+}

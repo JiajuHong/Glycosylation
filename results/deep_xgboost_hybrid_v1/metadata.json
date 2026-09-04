@@ -1,0 +1,14 @@
+{
+  "experiment": "deep_xgboost_hybrid_v1",
+  "deployment_status": "experimental_only_not_integrated",
+  "feature_modes": [
+    "deep_only",
+    "deep_structure",
+    "deep_structure_condition"
+  ],
+  "excluded_features": [
+    "Donor_Type"
+  ],
+  "fingerprint_include_chirality": false,
+  "selection": "fixed XGBoost parameters; validation threshold only"
+}

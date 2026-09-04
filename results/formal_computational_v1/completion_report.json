@@ -1,0 +1,98 @@
+{
+  "experiment_id": "formal_computational_v1",
+  "status": "completed",
+  "run_count": 24,
+  "prediction_export_count": 24,
+  "main_ensemble": {
+    "n": 238,
+    "accuracy": 0.9369747899159664,
+    "balanced_accuracy": 0.9353726525821596,
+    "macro_f1": 0.9346381295886046,
+    "auroc_mean_score": 0.9764524647887324,
+    "confusion_matrix": [
+      [
+        89,
+        7
+      ],
+      [
+        8,
+        134
+      ]
+    ],
+    "seed_disagreement_count": 13,
+    "seed_disagreement_rate": 0.0546218487394958,
+    "unanimous_accuracy": 0.9688888888888889,
+    "disagreement_accuracy": 0.38461538461538464
+  },
+  "temporal_ensemble": {
+    "n": 281,
+    "accuracy": 0.8078291814946619,
+    "balanced_accuracy": 0.8112971823498139,
+    "macro_f1": 0.8027711344494125,
+    "auroc_mean_score": 0.8516746411483253,
+    "confusion_matrix": [
+      [
+        91,
+        19
+      ],
+      [
+        35,
+        136
+      ]
+    ],
+    "seed_disagreement_count": 45,
+    "seed_disagreement_rate": 0.1601423487544484,
+    "unanimous_accuracy": 0.847457627118644,
+    "disagreement_accuracy": 0.6
+  },
+  "outputs": [
+    "results/formal_computational_v1/all_run_metrics.csv",
+    "results/formal_computational_v1/architecture_ablation_summary.csv",
+    "results/formal_computational_v1/baseline_pair_group_summary.csv",
+    "results/formal_computational_v1/baselines/baseline_metadata.json",
+    "results/formal_computational_v1/baselines/baseline_results.csv",
+    "results/formal_computational_v1/baselines/predictions_split_pair_group.csv",
+    "results/formal_computational_v1/baselines/predictions_split_random_stratified.csv",
+    "results/formal_computational_v1/baselines/predictions_split_year.csv",
+    "results/formal_computational_v1/encoder_comparison_summary.csv",
+    "results/formal_computational_v1/ensemble_metrics.json",
+    "results/formal_computational_v1/main_ensemble_bootstrap_ci.json",
+    "results/formal_computational_v1/main_ensemble_error_cases.csv",
+    "results/formal_computational_v1/main_ensemble_subgroup_metrics.csv",
+    "results/formal_computational_v1/paired_baseline_comparisons.csv",
+    "results/formal_computational_v1/paired_ensemble_comparisons.csv",
+    "results/formal_computational_v1/predictions/pair_chiral_crossattn/ensemble_test.csv",
+    "results/formal_computational_v1/predictions/pair_chiral_crossattn/seed0.csv",
+    "results/formal_computational_v1/predictions/pair_chiral_crossattn/seed1.csv",
+    "results/formal_computational_v1/predictions/pair_chiral_crossattn/seed2.csv",
+    "results/formal_computational_v1/predictions/pair_chiral_global/ensemble_test.csv",
+    "results/formal_computational_v1/predictions/pair_chiral_global/seed0.csv",
+    "results/formal_computational_v1/predictions/pair_chiral_global/seed1.csv",
+    "results/formal_computational_v1/predictions/pair_chiral_global/seed2.csv",
+    "results/formal_computational_v1/predictions/pair_chiral_local/ensemble_test.csv",
+    "results/formal_computational_v1/predictions/pair_chiral_local/seed0.csv",
+    "results/formal_computational_v1/predictions/pair_chiral_local/seed1.csv",
+    "results/formal_computational_v1/predictions/pair_chiral_local/seed2.csv",
+    "results/formal_computational_v1/predictions/pair_chiral_tri_l1/ensemble_test.csv",
+    "results/formal_computational_v1/predictions/pair_chiral_tri_l1/seed0.csv",
+    "results/formal_computational_v1/predictions/pair_chiral_tri_l1/seed1.csv",
+    "results/formal_computational_v1/predictions/pair_chiral_tri_l1/seed2.csv",
+    "results/formal_computational_v1/predictions/pair_chiral_tri_l2/ensemble_test.csv",
+    "results/formal_computational_v1/predictions/pair_chiral_tri_l2/seed0.csv",
+    "results/formal_computational_v1/predictions/pair_chiral_tri_l2/seed1.csv",
+    "results/formal_computational_v1/predictions/pair_chiral_tri_l2/seed2.csv",
+    "results/formal_computational_v1/predictions/pair_chiral_tri_l3/ensemble_test.csv",
+    "results/formal_computational_v1/predictions/pair_chiral_tri_l3/seed0.csv",
+    "results/formal_computational_v1/predictions/pair_chiral_tri_l3/seed1.csv",
+    "results/formal_computational_v1/predictions/pair_chiral_tri_l3/seed2.csv",
+    "results/formal_computational_v1/predictions/pair_gine_tri_l3_fair/ensemble_test.csv",
+    "results/formal_computational_v1/predictions/pair_gine_tri_l3_fair/seed0.csv",
+    "results/formal_computational_v1/predictions/pair_gine_tri_l3_fair/seed1.csv",
+    "results/formal_computational_v1/predictions/pair_gine_tri_l3_fair/seed2.csv",
+    "results/formal_computational_v1/predictions/year_chiral_tri_l3/ensemble_test.csv",
+    "results/formal_computational_v1/predictions/year_chiral_tri_l3/seed0.csv",
+    "results/formal_computational_v1/predictions/year_chiral_tri_l3/seed1.csv",
+    "results/formal_computational_v1/predictions/year_chiral_tri_l3/seed2.csv",
+    "results/formal_computational_v1/temporal_generalization_summary.csv"
+  ]
+}

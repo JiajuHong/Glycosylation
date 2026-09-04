@@ -1,0 +1,31 @@
+{
+  "input": {
+    "path": "data/processed/glyco_model_local.csv",
+    "sha256": "aeb561ea3a06afc4027fc7116132697c086abd43b5ae8643fb0e8c5afd236500",
+    "rows": 1561
+  },
+  "source": {
+    "path": "/home/jjhong/gly/baseline/run_baseline_ml.py",
+    "sha256": "ef489b91556ce4a38b03d343a9a41a4a13650b043536105b02bdbb0d8152f268"
+  },
+  "splits": [
+    "split_pair_group",
+    "split_year",
+    "split_random_stratified"
+  ],
+  "fingerprint": "Morgan radius 2, 2048 bits, includeChirality=False",
+  "feature_sets": [
+    "structure_condition",
+    "condition_only"
+  ],
+  "random_state": 42,
+  "environment": {
+    "python": "3.12.13",
+    "numpy": "2.4.3",
+    "pandas": "3.0.2",
+    "rdkit": "2026.3.1",
+    "scikit_learn": "1.8.0",
+    "xgboost": "3.4.1"
+  },
+  "retirement_note": "Structure-only rows archived, not invalidated. Retained runs unchanged; source hash describes original training code, not current code. Archive: artifacts/archives/without_conditions_20260902/pre_removal.tar.gz"
+}
