@@ -256,11 +256,11 @@
     "scipy": "1.17.1"
   },
   "source": {
-    "git_commit": "4ea756bbb2518180508acf6e73689688a9d9502b",
-    "git_dirty": true,
+    "git_commit": "c7ab8ac9f6f0f92c83202093c249eaaad0947312",
+    "git_dirty": false,
     "generation_worktree": {
-      "git_commit": "4ea756bbb2518180508acf6e73689688a9d9502b",
-      "git_dirty": true,
+      "git_commit": "c7ab8ac9f6f0f92c83202093c249eaaad0947312",
+      "git_dirty": false,
       "source_commit_override": false
     },
     "files": [
